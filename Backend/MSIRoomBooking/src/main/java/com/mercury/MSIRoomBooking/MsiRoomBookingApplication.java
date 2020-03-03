@@ -1,4 +1,4 @@
-package com.mecury.MSIRoomBooking;
+package com.mercury.MSIRoomBooking;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
