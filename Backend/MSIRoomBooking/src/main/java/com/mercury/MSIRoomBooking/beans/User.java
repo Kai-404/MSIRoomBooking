@@ -4,9 +4,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Entity
+@Table(name="USER")
 public class User implements UserDetails {
 
     @Id
@@ -26,19 +29,19 @@ public class User implements UserDetails {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinColumn(name="ROLE_ID")
-    private List<Role> roles;
+    private Role role;
 
     public User() {
         super();
     }
 
-    public User(int id, String email, String firstName, String lastName, String password, List<Role> roles) {
+    public User(int id, String email, String firstName, String lastName, String password, Role role) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
-        this.roles = roles;
+        this.role = role;
     }
 
     public int getId() {
@@ -77,12 +80,12 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public Role getRoles() {
+        return role;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setRoles(Role role) {
+        this.role = role;
     }
 
     @Override
@@ -93,12 +96,14 @@ public class User implements UserDetails {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", password='" + password + '\'' +
-                ", role=" + roles +
+                ", role=" + role +
                 '}';
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<Role> roles = new ArrayList<>();
+        roles.add(role);
         return roles;
     }
 
