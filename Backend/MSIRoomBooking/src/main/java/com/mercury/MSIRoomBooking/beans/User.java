@@ -80,11 +80,11 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public Role getRoles() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRoles(Role role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

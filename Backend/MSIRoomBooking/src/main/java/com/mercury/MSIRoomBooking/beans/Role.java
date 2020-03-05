@@ -17,8 +17,15 @@ public class Role implements GrantedAuthority {
     @Column
     private String type;
 
+
+
     public Role() {
         super();
+    }
+
+    public Role(int id) {
+        super();
+        this.id = id;
     }
 
     public Role(int id, String type) {
