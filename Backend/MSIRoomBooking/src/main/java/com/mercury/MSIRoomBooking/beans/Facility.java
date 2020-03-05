@@ -19,7 +19,7 @@ public class Facility {
     @Column
     private int stock;
 
-    @Column
+    @Column(name="IMAGE_URL")
     private String image;
 
     public int getId() {
