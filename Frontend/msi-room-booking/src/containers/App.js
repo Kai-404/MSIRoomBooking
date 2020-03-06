@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from "../components/Header";
+import Rooms from "../components/Rooms";
 
 class App extends React.Component{
 
@@ -9,7 +10,9 @@ class App extends React.Component{
                 <nav>
                     <Header/>
                 </nav>
-            <p>Good Good Study, Day Day Up</p>
+            <Rooms>
+
+            </Rooms>
             </React.Fragment>
         );
     }
