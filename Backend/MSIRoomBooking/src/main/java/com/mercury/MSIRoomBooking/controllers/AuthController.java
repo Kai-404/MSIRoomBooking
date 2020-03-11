@@ -1,13 +1,12 @@
-package com.mercury.SpringBootRestDemo.controllers;
+package com.mercury.MSIRoomBooking.controllers;
 
+import com.mercury.MSIRoomBooking.http.Response;
+import com.mercury.MSIRoomBooking.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mercury.SpringBootRestDemo.http.Response;
-import com.mercury.SpringBootRestDemo.services.AuthService;
 
 @RestController
 public class AuthController {
