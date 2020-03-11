@@ -1,0 +1,65 @@
+@import "../css/variables";
+.Login {
+  min-width: 320px;
+  width: 100%;
+  max-width: 400px;
+  height: 450px;
+  margin-top: 25px;
+  position: relative;
+  overflow: hidden;
+  .bg-image {
+    /*width: 100%;
+    height: 100%;
+    position: absolute;
+    background-image: url("https://c8.alamy.com/comp/CFEGYY/yellow-and-red-textured-golden-design-background-CFEGYY.jpg");
+    background-size: cover;
+    background-position: center; !* Center the image *!
+    filter: blur(24px);*/
+  }
+  .overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #ff5049, #710089);
+  }
+  .login-form {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    @include flex-display(column, center, center);
+  }
+  .login-icon {
+    background-color: white;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    width: 70px;
+    height: 70px;
+    @include flex-display(row, center, center);
+    .MuiSvgIcon-root {
+      width: 50px;
+      height: 50px;
+      color: rgb(211, 55, 93);
+    }
+  }
+  .success {
+    .MuiSnackbarContent-root {
+      background-color: #01a811;
+    }
+  }
+  .failure {
+    .MuiSnackbarContent-root {
+      background-color: #ff5049;
+    }
+  }
+  // override
+  &.MuiPaper-rounded {
+    border-radius: 8px;
+  }
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus{
+    -webkit-text-fill-color: white;
+    -webkit-box-shadow: 0 0 0 1000px #9431b0 inset;
+    background-color: transparent !important;
+  }
+}
