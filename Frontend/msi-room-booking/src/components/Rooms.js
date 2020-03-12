@@ -11,10 +11,12 @@ import Button from "@material-ui/core/Button";
 import "./Rooms.scss";
 import {connect} from "react-redux";
 import {getRooms} from "../actions/rooms.action";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
 
 class Rooms extends React.Component{
 
-
+    selectedRoomId = this.props.selectedRoomId ;
 
     componentDidMount() {
         this.props.getRooms();
@@ -25,8 +27,10 @@ class Rooms extends React.Component{
     //     { name: 'Training Room B', maxCapacity: 10, status: 'IN USE', image: 'https://28fs5qpte772a5kdy3ndzx31-wpengine.netdna-ssl.com/wp-content/uploads/2019/05/16-0041815.gif' }
     // ];
 
-    handleAction = ()=>{
-        console.log("aaaaa")
+    handleAction = (event)=>{
+        this.props.setSelectedRoomId(event.currentTarget.id);
+        this.props.handleClose();
+        console.log(event.currentTarget.name + event.currentTarget.id);
     }
 
     render() {
@@ -35,8 +39,9 @@ class Rooms extends React.Component{
                 {
                     this.props.rooms && this.props.rooms.map( r => r.status==="IN USE" && (
                         <Grid item xs={12} sm={6} md={4}>
+
                             <Card >
-                                <CardActionArea>
+                                <CardActionArea id={r.id} name={r.name} onClick={this.handleAction}>
                                     <CardMedia
                                         component="img"
                                         alt={r.name}
@@ -51,18 +56,14 @@ class Rooms extends React.Component{
                                             Max Capacity: {r.maxCapacity}
                                         </Typography>
                                     </CardContent>
+
                                 </CardActionArea>
-                                <CardActions>
-                                    <Button size="small" color="primary" onClick={this.handleAction}>
-                                        Book This Room
-                                    </Button>
-                                </CardActions>
                             </Card>
                         </Grid>
                     ))
 
-                }
 
+                }
             </Grid>
         );
     }

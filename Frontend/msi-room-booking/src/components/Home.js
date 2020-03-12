@@ -38,7 +38,7 @@ const Home = () => {
     const user = useSelector(state => state.user);
 
     const data = [
-        {startDate: '2020-3-10 10:00', endDate: '2020-3-10 12:00', title: 'Training', location: 'Training Room A', organizer:'Gao'},
+        {startDate: '2020-03-10T09:00:00', endDate: '2020-03-10T12:00:00', title: 'Training', location: 'Training Room A', organizer:'Gao'},
         {startDate: '2020-3-11 14:00', endDate: '2020-3-11 17:30', title: "Afternoon Training", location: 'Training Room A', organizer:'Peter'}
     ];
 
@@ -49,7 +49,7 @@ const Home = () => {
 
             {
                 user
-                    ? (<p>Welcome Back! {user.lastName} </p>)
+                    ? (<p>Welcome Back! {user.lastName}! You are a {user.role.type}</p>)
                     :(<p>Please login</p>)
 
             }
