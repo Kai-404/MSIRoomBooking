@@ -7,6 +7,7 @@ export const appConstants = {
     LOGIN: 'LOGIN',
     LOGOUT: 'LOGOUT',
     GET_ROOMS: 'GET_ROOMS',
+    ADD_RESERVATION: 'ADD_RESERVATION',
     LOGIN_SUCCESS_MSG: 'Welcome Back! ',
     LOGIN_FAILED_MSG: 'Logged in failed, please try again!',
     RESERVATION_FIELD: [

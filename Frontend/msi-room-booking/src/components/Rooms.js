@@ -16,8 +16,6 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 
 class Rooms extends React.Component{
 
-    selectedRoomId = this.props.selectedRoomId ;
-
     componentDidMount() {
         this.props.getRooms();
     }
@@ -27,10 +25,10 @@ class Rooms extends React.Component{
     //     { name: 'Training Room B', maxCapacity: 10, status: 'IN USE', image: 'https://28fs5qpte772a5kdy3ndzx31-wpengine.netdna-ssl.com/wp-content/uploads/2019/05/16-0041815.gif' }
     // ];
 
-    handleAction = (event)=>{
-        this.props.setSelectedRoomId(event.currentTarget.id);
+    handleAction = (event,room)=>{
+        console.log(room)
+        this.props.setSelectedRoom(room)
         this.props.handleClose();
-        console.log(event.currentTarget.name + event.currentTarget.id);
     }
 
     render() {
@@ -41,7 +39,7 @@ class Rooms extends React.Component{
                         <Grid item xs={12} sm={6} md={4}>
 
                             <Card >
-                                <CardActionArea id={r.id} name={r.name} onClick={this.handleAction}>
+                                <CardActionArea id={r.id} name={r.name} onClick={(event)=> this.handleAction(event, r)}>
                                     <CardMedia
                                         component="img"
                                         alt={r.name}

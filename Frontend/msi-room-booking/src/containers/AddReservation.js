@@ -1,5 +1,5 @@
 import React from 'react';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import {
     MuiPickersUtilsProvider,DateTimePicker
@@ -16,38 +16,80 @@ import Transition from "react-transition-group/Transition";
 import Rooms from "../components/Rooms";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from '@material-ui/icons/Close';
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Avatar from "@material-ui/core/Avatar";
+import ListItemText from "@material-ui/core/ListItemText";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Slide from "@material-ui/core/Slide";
+import {addReservation} from "../actions/reservations.action";
 
 
 const AddReservation =()=>{
 
     const user = useSelector(state => state.user);
 
+    const [reservationTitle, setReservationTitle] = React.useState("New Reservation")
     const [selectedStartDate, setSelectedStartDate] = React.useState(new Date());
+    const [selectedEndDate, setSelectedEndDate] = React.useState(new Date());
+    const [selectedRoom, setSelectedRoom] = React.useState();
 
-    const [selectedRoomId, setSelectedRoomId] = React.useState();
+    const handleTitleChange =(event)=>{
+        setReservationTitle(event.target.value);
+        console.log(reservationTitle);
+    }
 
     const handleStartDateChange = date => {
         setSelectedStartDate(date);
         console.log(selectedStartDate)
     };
 
-    const [selectedEndDate, setSelectedEndDate] = React.useState(new Date());
-
-    const handleEndDateChange =(date,event) => {
+    const handleEndDateChange =(date) => {
         setSelectedEndDate(date);
-        console.log(selectedEndDate)
+        console.log(selectedEndDate.toLocaleTimeString())
     };
+
 
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
-        setSelectedRoomId(null);
+        // setSelectedRoomId(null);
+        setSelectedRoom(null);
     };
 
-    const handleClose = (value) => {
+    const handleClose = () => {
         setOpen(false);
     };
+
+    const dispatch = useDispatch();
+
+    const handleSubmit =()=>{
+       const reservation = {
+           title : reservationTitle,
+           startTime: selectedStartDate,
+           endTime: selectedEndDate,
+           user: user,
+           room: selectedRoom,
+           status:"CREATED"
+        }
+
+        dispatch(addReservation(
+            reservation,
+            ()=>{
+                console.log("success")
+            },
+            ()=>{
+                console.log("fail")
+            }
+        ));
+
+
+        console.log(reservation);
+
+    }
 
 
     return(
@@ -58,10 +100,11 @@ const AddReservation =()=>{
         <form className="new-reservation-form">
 
             <TextField
-                defaultValue="New Reservation"
+                defaultValue={reservationTitle}
                 margin="normal"
                 required
                 label="Reservation Title"
+                onChange={handleTitleChange}
             />
 
             <DateTimePicker
@@ -88,15 +131,41 @@ const AddReservation =()=>{
                 disablePast
             />
 
-            <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+            <Button color="primary" onClick={handleClickOpen}>
                 Select a room
             </Button>
 
             {
-                selectedRoomId
-                    ? <p>{selectedRoomId}</p>
-                    : <p>not selected anything</p>
+                selectedRoom
+                    ? (
+                        <Card style={{display:"flex",width:"30"}}>
+
+                            <CardMedia>
+                                <img alt={selectedRoom.name} src={selectedRoom.image}
+                                width="150vw" height="100vh"/>
+
+                            </CardMedia>
+
+                            <div>
+                                <CardContent >
+                                    <Typography variant="subtitle1">
+                                        {selectedRoom.name}
+                                    </Typography>
+                                    <Typography variant="subtitle2" color="textSecondary">
+                                        Max Capacity : {selectedRoom.maxCapacity}
+                                    </Typography>
+                                </CardContent>
+
+                            </div>
+                        </Card>
+                    )
+                    : <p>No Room Selected</p>
             }
+
+
+            <Button variant="contained" color="primary" onClick={handleSubmit}>
+                Create This Reservation
+            </Button>
 
 
             <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition} >
@@ -110,7 +179,7 @@ const AddReservation =()=>{
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <Rooms setSelectedRoomId={setSelectedRoomId} handleClose={handleClose}/>
+                <Rooms setSelectedRoom={setSelectedRoom} handleClose={handleClose}/>
             </Dialog>
 
 

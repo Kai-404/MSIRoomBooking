@@ -45,14 +45,16 @@ const Home = () => {
 
 
     return (
-        <Paper>
-
+        <div style={{display:"flex", justifyContent:"center"}}>
             {
                 user
                     ? (<p>Welcome Back! {user.lastName}! You are a {user.role.type}</p>)
                     :(<p>Please login</p>)
 
             }
+        <Paper style={{width: "60vw" , height:"70vh", overflow:'scroll', marginBottom:"30px", marginTop:"30px"}}>
+
+
 
             <Scheduler
                 data={data}
@@ -68,6 +70,7 @@ const Home = () => {
                 />
             </Scheduler>
         </Paper>
+        </div>
     );
 
 }
