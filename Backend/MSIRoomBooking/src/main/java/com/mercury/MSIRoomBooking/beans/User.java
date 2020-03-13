@@ -1,5 +1,6 @@
 package com.mercury.MSIRoomBooking.beans;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -100,6 +101,7 @@ public class User implements UserDetails {
                 '}';
     }
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<Role> roles = new ArrayList<>();

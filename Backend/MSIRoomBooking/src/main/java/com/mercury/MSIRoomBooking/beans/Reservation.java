@@ -20,11 +20,11 @@ public class Reservation {
     private Room room;
 
     @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.DETACH)
-    @JoinColumn(name = "USER_ID")
+            @JoinColumn(name = "ORGANIZER_ID")
     private User user;
 
     @Column
-    private String Status;
+    private String status;
 
     @Column(name = "START_TIME")
     private Date startTime;
@@ -41,7 +41,7 @@ public class Reservation {
         this.title = title;
         this.room = room;
         this.user = user;
-        Status = status;
+        this.status = status;
         this.startTime = startTime;
         this.endTime = endTime;
     }
@@ -79,11 +79,11 @@ public class Reservation {
     }
 
     public String getStatus() {
-        return Status;
+        return status;
     }
 
     public void setStatus(String status) {
-        Status = status;
+        this.status = status;
     }
 
     public Date getStartTime() {
@@ -109,7 +109,7 @@ public class Reservation {
                 ", title='" + title + '\'' +
                 ", room=" + room +
                 ", user=" + user +
-                ", Status='" + Status + '\'' +
+                ", status='" + status + '\'' +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 '}';
