@@ -16,14 +16,9 @@ import Transition from "react-transition-group/Transition";
 import Rooms from "../components/Rooms";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from '@material-ui/icons/Close';
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
-import ListItemText from "@material-ui/core/ListItemText";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import Slide from "@material-ui/core/Slide";
 import {addReservation} from "../actions/reservations.action";
 
 
@@ -38,17 +33,14 @@ const AddReservation =()=>{
 
     const handleTitleChange =(event)=>{
         setReservationTitle(event.target.value);
-        console.log(reservationTitle);
     }
 
     const handleStartDateChange = date => {
         setSelectedStartDate(date);
-        console.log(selectedStartDate)
     };
 
     const handleEndDateChange =(date) => {
         setSelectedEndDate(date);
-        console.log(selectedEndDate.toLocaleTimeString())
     };
 
 
@@ -56,7 +48,6 @@ const AddReservation =()=>{
 
     const handleClickOpen = () => {
         setOpen(true);
-        // setSelectedRoomId(null);
         setSelectedRoom(null);
     };
 
@@ -79,15 +70,14 @@ const AddReservation =()=>{
         dispatch(addReservation(
             reservation,
             ()=>{
-                console.log("success")
+                console.log("Add New Reservation success")
             },
             ()=>{
-                console.log("fail")
+                console.log("Add New Reservation FAIL!!!")
             }
         ));
 
 
-        console.log(reservation);
 
     }
 

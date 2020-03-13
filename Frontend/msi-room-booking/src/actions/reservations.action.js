@@ -8,7 +8,8 @@ export const addReservation = (reservation, success, fail)=>{
         reservation,
         {withCredentials: true}
     ).then(res => {
-        if (res.data.success) {
+
+        if (res.status === 200) {
             typeof success === 'function' && success();
             return reservation;
         }
