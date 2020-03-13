@@ -12,6 +12,7 @@ import {appConstants} from "./constants/constants";
 import Login from "./login/Login";
 import Rooms from "./components/Rooms";
 import Home from "./components/Home";
+import AddReservation from "./containers/AddReservation";
 
 
 ReactDOM.render(
@@ -24,6 +25,7 @@ ReactDOM.render(
 
                     <Route path={appConstants.loginRoute} component={Login}/>
                     <Route path={appConstants.homeRoute} component={Home}/>
+                    <Route path={appConstants.addReservationRoute} component={AddReservation}/>
 
                     <Route path="*">
                         <Redirect to={appConstants.homeRoute} component={Home}/>

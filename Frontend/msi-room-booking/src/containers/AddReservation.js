@@ -12,7 +12,6 @@ import Dialog from "@material-ui/core/Dialog";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-import Transition from "react-transition-group/Transition";
 import Rooms from "../components/Rooms";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from '@material-ui/icons/Close';
@@ -20,6 +19,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import {addReservation} from "../actions/reservations.action";
+import DialogContent from "@material-ui/core/DialogContent";
 
 
 const AddReservation =()=>{
@@ -78,15 +78,17 @@ const AddReservation =()=>{
         ));
 
 
-
     }
 
-
     return(
-
-
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Paper className='AddReservation' elevation={10}>
+            <Paper className='AddReservation' elevation={10} style={{
+                minWidth: "320px",
+                width: "100%",
+                maxWidth: "400px",
+                height: "450px",
+                marginTop: "25px",
+                position: "relative"}} >
         <form className="new-reservation-form">
 
             <TextField
@@ -158,9 +160,9 @@ const AddReservation =()=>{
             </Button>
 
 
-            <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition} >
+            <Dialog fullScreen open={open} onClose={handleClose} >
                 <AppBar >
-                    <Toolbar>
+                    <Toolbar position="fixed">
                         <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
                             <CloseIcon />
                         </IconButton>
@@ -169,19 +171,17 @@ const AddReservation =()=>{
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <Rooms setSelectedRoom={setSelectedRoom} handleClose={handleClose}/>
+                <DialogContent style={{marginTop:"65px"}}>
+                    <Rooms setSelectedRoom={setSelectedRoom} handleClose={handleClose} />
+                </DialogContent>
+
             </Dialog>
-
-
 
         </form>
             </Paper>
 
         </MuiPickersUtilsProvider>
     );
-
-
-
 
 
 }

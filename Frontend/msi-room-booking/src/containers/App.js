@@ -3,19 +3,19 @@ import Header from "../components/Header";
 import Rooms from "../components/Rooms";
 import Home from "../components/Home";
 import AddReservation from "./AddReservation";
+import './App.scss'
 
 class App extends React.Component{
+
 
     render() {
         return (
             <React.Fragment>
-                <nav>
+                <nav >
                     <Header/>
                 </nav>
-                <AddReservation>
 
-                </AddReservation>
-                <main className="app-content">
+                <main className="app-content" >
                     {this.props.children}
                 </main>
 

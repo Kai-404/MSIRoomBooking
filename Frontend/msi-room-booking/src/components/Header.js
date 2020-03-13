@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import HomeIcon from "@material-ui/icons/Home";
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
+import AddIcon from '@material-ui/icons/Add';
 import Button from "@material-ui/core/Button";
 import {NavLink} from "react-router-dom";
 import {appConstants} from "../constants/constants";
@@ -41,10 +42,16 @@ const Header = () =>{
                 </IconButton>
                 </NavLink>
 
-                <NavLink to={appConstants.roomsRoute}>
-                <IconButton>
-                    <MeetingRoomIcon className="nav-action-icon"/>
-                </IconButton>
+                {/*<NavLink to={appConstants.roomsRoute}>*/}
+                {/*<IconButton>*/}
+                {/*    <MeetingRoomIcon className="nav-action-icon"/>*/}
+                {/*</IconButton>*/}
+                {/*</NavLink>*/}
+
+                <NavLink to={appConstants.addReservationRoute}>
+                    <IconButton>
+                        <AddIcon className="nav-action-icon"/>
+                    </IconButton>
                 </NavLink>
 
                 <NavLink to={appConstants.loginRoute} style={{textDecoration: 'none'}}>

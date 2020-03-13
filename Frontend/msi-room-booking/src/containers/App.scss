@@ -1,0 +1,5 @@
+@import '../css/variables';
+.app-content {
+  padding: 15px;
+  @include flex-display(column, flex-start, center);
+}

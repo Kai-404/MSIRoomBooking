@@ -3,6 +3,7 @@ export const appConstants = {
     homeRoute: '/home',
     loginRoute:'/login',
     roomsRoute:'/rooms',
+    addReservationRoute:"/addReservation",
     // actions
     LOGIN: 'LOGIN',
     LOGOUT: 'LOGOUT',
