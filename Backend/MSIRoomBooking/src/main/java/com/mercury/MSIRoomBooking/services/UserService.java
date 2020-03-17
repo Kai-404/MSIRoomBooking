@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -20,6 +22,10 @@ public class UserService {
 
     public User getUserByID(Integer id){
         return userDao.findById( id ).get();
+    }
+
+    public List<User> getUsers(){
+        return userDao.findAll();
     }
 
     public Response save(User user) {
