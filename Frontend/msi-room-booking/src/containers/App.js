@@ -17,8 +17,6 @@ class App extends React.Component{
                     <Header/>
                 </nav>
 
-                <FacilityList></FacilityList>
-
                 <main className="app-content" >
                     {this.props.children}
                 </main>
