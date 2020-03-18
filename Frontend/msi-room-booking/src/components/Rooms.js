@@ -38,7 +38,7 @@ class Rooms extends React.Component{
                     this.props.rooms && this.props.rooms.map( r => r.status==="IN USE" && (
                         <Grid item xs={12} sm={6} md={4}>
 
-                            <Card >
+                            <Card id={r.id} key={r.id}>
                                 <CardActionArea id={r.id} name={r.name} onClick={(event)=> this.handleAction(event, r)}>
                                     <CardMedia
                                         component="img"

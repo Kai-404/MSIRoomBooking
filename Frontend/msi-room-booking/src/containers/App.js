@@ -4,6 +4,8 @@ import Rooms from "../components/Rooms";
 import Home from "../components/Home";
 import AddReservation from "./AddReservation";
 import './App.scss'
+import InviteList from "../components/InviteList";
+import FacilityList from "../components/FacilityList";
 
 class App extends React.Component{
 
@@ -15,9 +17,12 @@ class App extends React.Component{
                     <Header/>
                 </nav>
 
+                <FacilityList></FacilityList>
+
                 <main className="app-content" >
                     {this.props.children}
                 </main>
+
 
             </React.Fragment>
         );

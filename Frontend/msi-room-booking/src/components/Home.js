@@ -1,13 +1,11 @@
-import React from 'react';
-import {useSelector} from "react-redux";
-import {Scheduler, DayView, Appointments, WeekView, AppointmentTooltip,
-    AppointmentForm } from '@devexpress/dx-react-scheduler-material-ui';
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from "react-redux";
+import {Scheduler, Appointments, WeekView, AppointmentTooltip} from '@devexpress/dx-react-scheduler-material-ui';
 import Paper from "@material-ui/core/Paper";
-import Rooms from "./Rooms";
 import Grid from "@material-ui/core/Grid";
 import RoomIcon from '@material-ui/icons/Room';
 import PersonIcon from '@material-ui/icons/Person';
-import Button from "@material-ui/core/Button";
+import {getUserReservations} from "../actions/reservations.action";
 
 
 const Content = (({appointmentData, ...restProps}) => (
@@ -35,16 +33,40 @@ const Content = (({appointmentData, ...restProps}) => (
 const Home = () => {
 
 
+    const dispatch = useDispatch();
+
+
     const user = useSelector(state => state.user);
 
-    const data = [
-        {startDate: '2020-03-10T09:00:00', endDate: '2020-03-10T12:00:00', title: 'Training', location: 'Training Room A', organizer:'Gao'},
-        {startDate: '2020-3-11 14:00', endDate: '2020-3-11 17:30', title: "Afternoon Training", location: 'Training Room A', organizer:'Peter'}
-    ];
 
+
+    useEffect(() => {
+
+                dispatch(
+                    getUserReservations(
+                        1,
+                        ()=>{
+                            console.log("Get Reservations Success")
+                        },
+                        ()=>{
+                            console.log("Get Reservations FAIL!!!")
+                        }
+                    )
+
+
+                )
+
+
+        },[user]);
+
+
+
+
+    const reservations = useSelector(state => state.userReservation);
 
 
     return (
+
         <div style={{display:"flex", justifyContent:"center"}}>
             {
                 user
@@ -56,8 +78,10 @@ const Home = () => {
 
 
 
+
             <Scheduler
-                data={data}
+                data={reservations}
+
             >
                 <WeekView
                     startDayHour={9}

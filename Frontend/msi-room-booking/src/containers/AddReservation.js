@@ -20,11 +20,15 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import {addReservation} from "../actions/reservations.action";
 import DialogContent from "@material-ui/core/DialogContent";
+import InviteList from "../components/InviteList";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import {getAllOtherUsers} from "../actions/allOtherUsers.action";
 
 
 const AddReservation =()=>{
 
     const user = useSelector(state => state.user);
+
 
     const [reservationTitle, setReservationTitle] = React.useState("New Reservation")
     const [selectedStartDate, setSelectedStartDate] = React.useState(new Date());
@@ -49,6 +53,19 @@ const AddReservation =()=>{
     const handleClickOpen = () => {
         setOpen(true);
         setSelectedRoom(null);
+    };
+
+    const [inviteOpen, setInviteOpen] = React.useState(false);
+    const [selectedUsers, setSelectedUsers] = React.useState();
+
+    const handleInviteClickOpen = () =>{
+        setInviteOpen(true);
+
+    }
+
+    const handleInviteClose = value => {
+        setInviteOpen(false);
+        //setSelectedUsers(newSelectedUsers);
     };
 
     const handleClose = () => {
@@ -127,6 +144,11 @@ const AddReservation =()=>{
                 Select a room
             </Button>
 
+            <Button color="primary" onClick={handleInviteClickOpen}>
+                Invite Other Users
+            </Button>
+
+
             {
                 selectedRoom
                     ? (
@@ -154,10 +176,26 @@ const AddReservation =()=>{
                     : <p>No Room Selected</p>
             }
 
+            {
+                selectedUsers
+                    ?(
+                        <div>
+                            {
+                                selectedUsers.map(user=>
+                                    <p>{user.firstName}</p>
+                                )
+                            }
+                        </div>
+                    )
+                    :<p>No user invited</p>
+
+            }
+
 
             <Button variant="contained" color="primary" onClick={handleSubmit}>
                 Create This Reservation
             </Button>
+
 
 
             <Dialog fullScreen open={open} onClose={handleClose} >
@@ -174,6 +212,14 @@ const AddReservation =()=>{
                 <DialogContent style={{marginTop:"65px"}}>
                     <Rooms setSelectedRoom={setSelectedRoom} handleClose={handleClose} />
                 </DialogContent>
+
+            </Dialog>
+
+
+            <Dialog onClose={handleInviteClose} aria-labelledby="invite-dialog-title" open={inviteOpen} onClose={handleInviteClose}>
+                <DialogTitle id="invite-dialog-title">Invite Users</DialogTitle>
+
+                <InviteList setSelectedUsers={setSelectedUsers}/>
 
             </Dialog>
 
