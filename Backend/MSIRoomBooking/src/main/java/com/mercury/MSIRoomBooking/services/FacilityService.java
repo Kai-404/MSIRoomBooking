@@ -5,6 +5,8 @@ import com.mercury.MSIRoomBooking.daos.FacilityDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FacilityService {
 
@@ -18,5 +20,9 @@ public class FacilityService {
     public void save(Facility facility) {
             facilityDao.save(facility);
 
+    }
+
+    public List<Facility> getAll(){
+        return facilityDao.findAll();
     }
 }

@@ -7,6 +7,7 @@ import com.mercury.MSIRoomBooking.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -29,6 +30,12 @@ public class UserController {
     @PostMapping
     public void save(@RequestBody User user) {
         userService.save(user);
+    }
+
+    @GetMapping("/allOtherUsers/{id}")
+    public List<User> getAllOtherUsers(@PathVariable int id){
+
+        return userService.getAllOtherUsers( id );
     }
 
 }

@@ -8,7 +8,9 @@ import com.mercury.MSIRoomBooking.http.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,6 +37,18 @@ public class UserService {
         userDao.save(user);
 
         return new Response(true);
+    }
+
+    public List<User> getAllOtherUsers(int id){
+
+        List<User> otherUsers = new ArrayList<>( );
+
+        userDao.findAll().forEach( user -> {
+            if (user.getId()!=id)
+                otherUsers.add( user );
+        } );
+
+        return otherUsers;
     }
 
 }
