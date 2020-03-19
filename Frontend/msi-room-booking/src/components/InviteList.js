@@ -115,7 +115,6 @@ const InviteList = (props)=>{
         setCheckedUsers(newCheckedUsers);
 
         console.log(newCheckedUsers);
-        props.setSelectedUsers(newCheckedUsers);
     };
 
     return (

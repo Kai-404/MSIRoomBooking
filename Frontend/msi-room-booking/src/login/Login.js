@@ -79,7 +79,7 @@ const Login = (props) =>{
             user,
             ()=>{
                 setOpen(true);
-                props.history.goBack();
+                props.history.push("/home");
             },
             ()=>{
                 setOpen(true);

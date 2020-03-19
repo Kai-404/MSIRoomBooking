@@ -36,23 +36,29 @@ const Header = () =>{
                     MSI-Room Booking
                 </Typography>
 
-                <NavLink to={appConstants.homeRoute}>
-                <IconButton>
-                    <HomeIcon className="nav-action-icon"/>
-                </IconButton>
-                </NavLink>
+                {/*{*/}
+                {/*    user&&*/}
+                {/*    (*/}
+                        <NavLink to={appConstants.homeRoute}>
+                        <IconButton>
+                            <HomeIcon className="nav-action-icon"/>
+                        </IconButton>
+                    </NavLink>
 
-                {/*<NavLink to={appConstants.roomsRoute}>*/}
-                {/*<IconButton>*/}
-                {/*    <MeetingRoomIcon className="nav-action-icon"/>*/}
-                {/*</IconButton>*/}
-                {/*</NavLink>*/}
+                {/*    )*/}
+                {/*}*/}
 
-                <NavLink to={appConstants.addReservationRoute}>
-                    <IconButton>
-                        <AddIcon className="nav-action-icon"/>
-                    </IconButton>
-                </NavLink>
+                {/*{*/}
+                {/*    user&&*/}
+                {/*    (*/}
+                        <NavLink to={appConstants.addReservationRoute}>
+                            <IconButton>
+                                <AddIcon className="nav-action-icon"/>
+                            </IconButton>
+                        </NavLink>
+                {/*    )*/}
+                {/*}*/}
+
 
                 <NavLink to={appConstants.loginRoute} style={{textDecoration: 'none'}}>
                     {

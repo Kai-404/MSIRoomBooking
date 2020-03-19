@@ -28,8 +28,12 @@ class Rooms extends React.Component{
     handleAction = (event,room)=>{
         console.log(room)
         this.props.setSelectedRoom(room)
-        this.props.handleClose();
+        this.props.handleClose(room);
     }
+
+
+
+
 
     render() {
         return (
@@ -75,3 +79,4 @@ function mapStateToProps({rooms}) {
 }
 
 export default connect(mapStateToProps,{getRooms})(Rooms);
+

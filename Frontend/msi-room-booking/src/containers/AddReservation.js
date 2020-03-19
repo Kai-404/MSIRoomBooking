@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import {
@@ -25,26 +25,52 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import {getAllOtherUsers} from "../actions/allOtherUsers.action";
 
 
-const AddReservation =()=>{
+const AddReservation =(props)=>{
 
     const user = useSelector(state => state.user);
 
 
     const [reservationTitle, setReservationTitle] = React.useState("New Reservation")
     const [selectedStartDate, setSelectedStartDate] = React.useState(new Date());
-    const [selectedEndDate, setSelectedEndDate] = React.useState(new Date());
+    const [selectedEndDate, setSelectedEndDate] = React.useState(new Date(selectedStartDate.getTime() + 30*60000));
     const [selectedRoom, setSelectedRoom] = React.useState();
+
+    useEffect(()=>{
+        setSelectedRoom( props.reservationInfo.room? props.reservationInfo.room:selectedRoom);
+        console.log(reservationTitle,selectedEndDate,selectedStartDate)
+        if(!!!(props.reservationInfo.title)){
+            props.reservationInfo.title = reservationTitle;
+            props.setReservationInfo(props.reservationInfo);
+        }
+
+        if(!!!(props.reservationInfo.startTime)){
+            props.reservationInfo.startTime = selectedStartDate;
+            props.setReservationInfo(props.reservationInfo);
+        }
+
+        if(!!!(props.reservationInfo.endTime)){
+            props.reservationInfo.endTime = selectedEndDate;
+            props.setReservationInfo(props.reservationInfo);
+        }
+
+    })
 
     const handleTitleChange =(event)=>{
         setReservationTitle(event.target.value);
+        props.reservationInfo.title = event.target.value;
+        props.setReservationInfo(props.reservationInfo)
     }
 
     const handleStartDateChange = date => {
         setSelectedStartDate(date);
+        props.reservationInfo.startTime = date;
+        props.setReservationInfo(props.reservationInfo)
     };
 
     const handleEndDateChange =(date) => {
         setSelectedEndDate(date);
+        props.reservationInfo.endTime = date;
+        props.setReservationInfo(props.reservationInfo)
     };
 
 
@@ -53,23 +79,16 @@ const AddReservation =()=>{
     const handleClickOpen = () => {
         setOpen(true);
         setSelectedRoom(null);
+        props.reservationInfo.room = null;
+        props.setReservationInfo(props.reservationInfo)
+
     };
 
-    const [inviteOpen, setInviteOpen] = React.useState(false);
-    const [selectedUsers, setSelectedUsers] = React.useState();
 
-    const handleInviteClickOpen = () =>{
-        setInviteOpen(true);
-
-    }
-
-    const handleInviteClose = value => {
-        setInviteOpen(false);
-        //setSelectedUsers(newSelectedUsers);
-    };
-
-    const handleClose = () => {
+    const handleClose = (room) => {
         setOpen(false);
+        props.reservationInfo.room = room;
+        props.setReservationInfo(props.reservationInfo)
     };
 
     const dispatch = useDispatch();
@@ -109,7 +128,7 @@ const AddReservation =()=>{
         <form className="new-reservation-form">
 
             <TextField
-                defaultValue={reservationTitle}
+                defaultValue={props.reservationInfo.title? props.reservationInfo.title:reservationTitle}
                 margin="normal"
                 required
                 label="Reservation Title"
@@ -123,7 +142,7 @@ const AddReservation =()=>{
                 ampm={false}
                 format="yyyy-MM-dd HH:mm"
                 label="Start Time"
-                value={selectedStartDate}
+                value={props.reservationInfo.startTime? props.reservationInfo.startTime:selectedStartDate}
                 onChange={handleStartDateChange}
                 disablePast
             />
@@ -135,17 +154,13 @@ const AddReservation =()=>{
                 ampm={false}
                 format="yyyy-MM-dd HH:mm"
                 label="End Time"
-                value={selectedEndDate}
+                value={props.reservationInfo.endTime? props.reservationInfo.endTime:selectedEndDate}
                 onChange={handleEndDateChange}
                 disablePast
             />
 
             <Button color="primary" onClick={handleClickOpen}>
                 Select a room
-            </Button>
-
-            <Button color="primary" onClick={handleInviteClickOpen}>
-                Invite Other Users
             </Button>
 
 
@@ -176,26 +191,9 @@ const AddReservation =()=>{
                     : <p>No Room Selected</p>
             }
 
-            {
-                selectedUsers
-                    ?(
-                        <div>
-                            {
-                                selectedUsers.map(user=>
-                                    <p>{user.firstName}</p>
-                                )
-                            }
-                        </div>
-                    )
-                    :<p>No user invited</p>
-
-            }
-
-
-            <Button variant="contained" color="primary" onClick={handleSubmit}>
-                Create This Reservation
-            </Button>
-
+            {/*<Button variant="contained" color="primary" onClick={handleSubmit}>*/}
+            {/*    Create This Reservation*/}
+            {/*</Button>*/}
 
 
             <Dialog fullScreen open={open} onClose={handleClose} >
@@ -215,13 +213,6 @@ const AddReservation =()=>{
 
             </Dialog>
 
-
-            <Dialog onClose={handleInviteClose} aria-labelledby="invite-dialog-title" open={inviteOpen} onClose={handleInviteClose}>
-                <DialogTitle id="invite-dialog-title">Invite Users</DialogTitle>
-
-                <InviteList setSelectedUsers={setSelectedUsers}/>
-
-            </Dialog>
 
         </form>
             </Paper>

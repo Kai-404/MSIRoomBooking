@@ -44,7 +44,7 @@ const Home = () => {
 
                 dispatch(
                     getUserReservations(
-                        1,
+                        user?user.id:1,
                         ()=>{
                             console.log("Get Reservations Success")
                         },
