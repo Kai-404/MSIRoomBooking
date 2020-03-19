@@ -26,9 +26,8 @@ class Rooms extends React.Component{
     // ];
 
     handleAction = (event,room)=>{
-        console.log(room)
         this.props.setSelectedRoom(room)
-        this.props.handleClose(room);
+        this.props.handleClose(event, room);
     }
 
 

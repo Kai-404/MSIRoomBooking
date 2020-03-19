@@ -37,7 +37,7 @@ const AddReservation =(props)=>{
 
     useEffect(()=>{
         setSelectedRoom( props.reservationInfo.room? props.reservationInfo.room:selectedRoom);
-        console.log(reservationTitle,selectedEndDate,selectedStartDate)
+
         if(!!!(props.reservationInfo.title)){
             props.reservationInfo.title = reservationTitle;
             props.setReservationInfo(props.reservationInfo);
@@ -85,9 +85,9 @@ const AddReservation =(props)=>{
     };
 
 
-    const handleClose = (room) => {
+    const handleClose = (event, room) => {
         setOpen(false);
-        props.reservationInfo.room = room;
+        props.reservationInfo.room = room? room:props.reservationInfo.room;
         props.setReservationInfo(props.reservationInfo)
     };
 
