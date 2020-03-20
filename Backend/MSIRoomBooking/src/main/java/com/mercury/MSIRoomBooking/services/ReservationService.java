@@ -21,8 +21,8 @@ public class ReservationService {
     }
 
     public Reservation save(Reservation reservation) {
-        reservationDao.save(reservation);
-        return reservationDao.findByRoomAndStartTimeAndEndTime( reservation.getRoom(), reservation.getStartTime(),reservation.getEndTime()).get( 0 );
+        Reservation saved = reservationDao.saveAndFlush( reservation );
+        return saved;
     }
 
     public List<Reservation> getUserReservations(int userId) {
