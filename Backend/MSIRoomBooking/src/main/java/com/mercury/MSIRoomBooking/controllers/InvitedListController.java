@@ -2,13 +2,12 @@ package com.mercury.MSIRoomBooking.controllers;
 
 import com.mercury.MSIRoomBooking.beans.Facility;
 import com.mercury.MSIRoomBooking.beans.InvitedList;
+import com.mercury.MSIRoomBooking.beans.Reservation;
+import com.mercury.MSIRoomBooking.beans.User;
 import com.mercury.MSIRoomBooking.daos.InvitedListDao;
 import com.mercury.MSIRoomBooking.services.InvitedListService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
@@ -24,5 +23,15 @@ public class InvitedListController {
     public void save(@RequestBody List<InvitedList> invitedList) {
         System.out.println( "HelloWorld" );
         invitedListService.save(invitedList);
+    }
+
+    @PostMapping("/userInvitations")
+    public List<InvitedList> getInvitations(@RequestBody User user){
+        return invitedListService.getInvitationByUser( user );
+    }
+
+    @PostMapping("/updateInvitation")
+    public InvitedList updateInvitation(@RequestBody InvitedList invitation){
+        return  invitedListService.updateInvitation(invitation);
     }
 }

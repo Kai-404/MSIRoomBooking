@@ -3,6 +3,7 @@ package com.mercury.MSIRoomBooking.controllers;
 
 import com.mercury.MSIRoomBooking.beans.Reservation;
 import com.mercury.MSIRoomBooking.beans.Room;
+import com.mercury.MSIRoomBooking.beans.User;
 import com.mercury.MSIRoomBooking.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +29,8 @@ public class ReservationController {
         return reservationService.save(reservation);
     }
 
-    @GetMapping("/user/{userId}")
-    public List<Reservation> getUserReservations(@PathVariable int userId) {
-        return reservationService.getUserReservations(userId);
+    @PostMapping("/user")
+    public List<Reservation> getUserReservations(@RequestBody User user) {
+        return reservationService.getUserReservations(user);
     }
 }

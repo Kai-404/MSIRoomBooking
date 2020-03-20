@@ -2,6 +2,7 @@ package com.mercury.MSIRoomBooking.services;
 
 import com.mercury.MSIRoomBooking.beans.FacilityRequirementList;
 import com.mercury.MSIRoomBooking.beans.InvitedList;
+import com.mercury.MSIRoomBooking.beans.User;
 import com.mercury.MSIRoomBooking.daos.InvitedListDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,5 +19,13 @@ public class InvitedListService {
 
             invitedListDao.saveAll( invitedList );
 
+    }
+
+    public InvitedList updateInvitation(InvitedList invitation){
+        return invitedListDao.save( invitation );
+    }
+
+    public List<InvitedList> getInvitationByUser(User user){
+        return  invitedListDao.findAllByUserAndStatus( user,"Invited" );
     }
 }
