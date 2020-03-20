@@ -6,6 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import RoomIcon from '@material-ui/icons/Room';
 import PersonIcon from '@material-ui/icons/Person';
 import {getUserReservations} from "../actions/reservations.action";
+import InvitationList from "./InvitationList";
 
 
 const Content = (({appointmentData, ...restProps}) => (
@@ -42,19 +43,23 @@ const Home = () => {
 
     useEffect(() => {
 
-                dispatch(
-                    getUserReservations(
-                        user?user.id:1,
-                        ()=>{
-                            console.log("Get Reservations Success")
-                        },
-                        ()=>{
-                            console.log("Get Reservations FAIL!!!")
-                        }
-                    )
+        if (user){
 
-
+            dispatch(
+                getUserReservations(
+                    user,
+                    ()=>{
+                        console.log("Get Reservations Success")
+                    },
+                    ()=>{
+                        console.log("Get Reservations FAIL!!!")
+                    }
                 )
+
+
+            )
+        }
+
 
 
         },[user]);
@@ -62,7 +67,7 @@ const Home = () => {
 
 
 
-    const reservations = useSelector(state => state.userReservation);
+    const reservations = useSelector(state => state.userReservations);
 
 
     return (
@@ -78,7 +83,7 @@ const Home = () => {
 
 
 
-
+            {console.log(reservations)}
             <Scheduler
                 data={reservations}
 
@@ -94,6 +99,9 @@ const Home = () => {
                 />
             </Scheduler>
         </Paper>
+            <InvitationList>
+
+            </InvitationList>
         </div>
     );
 

@@ -29,8 +29,8 @@ ReactDOM.render(
                     <Route path={appConstants.addReservationRoute} component={AddNewReservation}/>
 
                     <Route path="*">
-                        {/*<Redirect to={appConstants.loginRoute} component={login}/>*/}
-                        <Redirect to={appConstants.homeRoute} component={Home}/>
+                        <Redirect to={appConstants.loginRoute} component={login}/>
+                        {/*<Redirect to={appConstants.homeRoute} component={Home}/>*/}
                     </Route>
                 </Switch>
             </App>

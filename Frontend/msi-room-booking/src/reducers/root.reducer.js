@@ -4,11 +4,13 @@ import {authReducer} from "./auth.reducer";
 import {userReservationsReducer} from "./userReservations.reducer";
 import {allOtherUsersReducer} from "./allOtherUsers.reducer";
 import {facilityListReducer} from "./facilityList.reducer";
+import {invitationsReducer} from "./invitations.reducer";
 
 export const rootReducer = combineReducers({
     rooms: roomsReducer,
     user: authReducer,
-    userReservation: userReservationsReducer,
+    userReservations: userReservationsReducer,
     allOtherUsers: allOtherUsersReducer,
-    facilities: facilityListReducer
+    facilities: facilityListReducer,
+    invitations: invitationsReducer
 });

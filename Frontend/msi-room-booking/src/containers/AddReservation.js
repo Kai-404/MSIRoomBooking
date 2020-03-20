@@ -93,28 +93,28 @@ const AddReservation =(props)=>{
 
     const dispatch = useDispatch();
 
-    const handleSubmit =()=>{
-       const reservation = {
-           title : reservationTitle,
-           startTime: selectedStartDate,
-           endTime: selectedEndDate,
-           user: user,
-           room: selectedRoom,
-           status:"CREATED"
-        }
-
-        dispatch(addReservation(
-            reservation,
-            ()=>{
-                console.log("Add New Reservation success")
-            },
-            ()=>{
-                console.log("Add New Reservation FAIL!!!")
-            }
-        ));
-
-
-    }
+    // const handleSubmit =()=>{
+    //    const reservation = {
+    //        title : reservationTitle,
+    //        startTime: selectedStartDate,
+    //        endTime: selectedEndDate,
+    //        user: user,
+    //        room: selectedRoom,
+    //        status:"CREATED"
+    //     }
+    //
+    //     dispatch(addReservation(
+    //         reservation,
+    //         ()=>{
+    //             console.log("Add New Reservation success")
+    //         },
+    //         ()=>{
+    //             console.log("Add New Reservation FAIL!!!")
+    //         }
+    //     ));
+    //
+    //
+    // }
 
     return(
         <MuiPickersUtilsProvider utils={DateFnsUtils}>

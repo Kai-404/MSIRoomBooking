@@ -10,11 +10,53 @@ import {useDispatch, useSelector} from "react-redux";
 import {getFacilityList} from "../actions/facilityList.action";
 
 
-const FacilityList = ()=>{
+const FacilityList = (props)=>{
 
     const facilities = useSelector(state => state.facilities);
 
     const dispatch = useDispatch();
+
+    const [selected, setSelected] = React.useState([]);
+    const [quantity, setQuantity] = React.useState([]);
+    const [facilitySelectedList, setfacilitySelectedList] = React.useState([]);
+
+
+    const handleOnChange = (value, facility)=>{
+        console.log(value,facility);
+
+        const currentIndex = selected.indexOf(facility.id);
+        const newSelected = [...selected];
+        const newQuantity = [...quantity];
+        const newFacilitySelectedList = [...facilitySelectedList]
+
+        if (currentIndex === -1) {
+            if (+value !== 0){
+                newSelected.push(facility.id);
+                newQuantity.push(+value);
+                newFacilitySelectedList.push(facility);
+            }
+        } else {
+
+            if(+value === 0){
+                newSelected.splice(currentIndex, 1);
+                newQuantity.splice(currentIndex, 1);
+                newFacilitySelectedList.splice(currentIndex, 1);
+            }else {
+                newQuantity[currentIndex]=+value;
+            }
+        }
+
+        setSelected(newSelected);
+        setQuantity(newQuantity);
+        setfacilitySelectedList(newFacilitySelectedList);
+        props.setAddedFacilityId(newSelected);
+        props.setAddedFacilityQuantity(newQuantity);
+        props.setAddedFacility(newFacilitySelectedList);
+
+        console.log(newSelected)
+        console.log(newQuantity)
+
+    }
 
     useEffect(()=>{
         dispatch(
@@ -27,6 +69,10 @@ const FacilityList = ()=>{
                 }
             )
         );
+        setSelected(props.addedFacilityId);
+        setQuantity(props.addedFacilityQuantity);
+        setfacilitySelectedList(props.addedFacility);
+
     },[]);
 
 
@@ -46,7 +92,7 @@ const FacilityList = ()=>{
 
                             </CardMedia>
 
-                            <div>
+                            <React.Fragment>
                                 <CardContent >
                                     <Typography variant="subtitle1">
                                         {facility.name}
@@ -60,20 +106,22 @@ const FacilityList = ()=>{
                                         id="standard-number"
                                         label="Quantity"
                                         type="number"
-                                        default = "0"
+                                        defaultValue = {
+                                            props.addedFacilityId.indexOf(facility.id) === -1
+                                                ? 0
+                                                : props.addedFacilityQuantity[props.addedFacilityId.indexOf(facility.id)]
+                                        }
                                         inputProps={{
                                             max: facility.stock,
                                             min:0
                                         }}
+                                        onChange={(event)=>{handleOnChange(event.target.value,facility)}}
                                     />
                                 </CardContent>
 
-                            </div>
+                            </React.Fragment>
                         </Card>
 
-                        <div>
-
-                        </div>
                     </Grid>
                 ))
 

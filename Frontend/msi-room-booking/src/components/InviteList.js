@@ -21,55 +21,6 @@ const useStyles = makeStyles(theme => ({
 
 const InviteList = (props)=>{
 
-    const users = [{
-        id: 4,
-        email: "test@msi.com",
-        firstName: "Kai",
-        lastName: "Ye",
-        password: "$2a$11$9nMbGPODllT9Vv3skyYpse8jkFHzgeiI.57B5HVew9xuSdZs6T2Nm",
-        role: {
-            id: 1,
-            type: "Manager"
-        },
-        enabled: true,
-        username: "test@msi.com",
-        accountNonExpired: true,
-        accountNonLocked: true,
-        credentialsNonExpired: true
-    },
-        {
-            id: 5,
-            email: "test1@msi.com",
-            firstName: "Greg",
-            lastName: "Gao",
-            password: "$2a$11$xRDmscs.MUUSbtGfUl39YOFg/m7sGynOePFCICKmUKfRgirKJ2kBS",
-            role: {
-                id: 2,
-                type: "Employee "
-            },
-            enabled: true,
-            username: "test1@msi.com",
-            accountNonExpired: true,
-            accountNonLocked: true,
-            credentialsNonExpired: true
-        },
-        {
-            id: 6,
-            email: "test2@msi.com",
-            firstName: "Peter",
-            lastName: "Jiao",
-            password: "$2a$11$oDXYnxq3obMOstXXRq51Gu1SMELfBvIQ1P51kZrdJZO214GpCdJ/K",
-            role: {
-                id: 1,
-                type: "Manager"
-            },
-            enabled: true,
-            username: "test2@msi.com",
-            accountNonExpired: true,
-            accountNonLocked: true,
-            credentialsNonExpired: true
-        }]
-
 
     const classes = useStyles();
     const [checked, setChecked] = React.useState([]);
@@ -79,11 +30,12 @@ const InviteList = (props)=>{
     const dispatch = useDispatch();
 
     const allOtherUsers = useSelector(state => state.allOtherUsers);
+    const user = useSelector(state => state.user);
 
     useEffect(()=>{
         dispatch(
             getAllOtherUsers(
-                1,
+                user? user.id:1,
                 ()=>{
                     console.log("Get Other Users Success")
                 },
@@ -92,6 +44,9 @@ const InviteList = (props)=>{
                 }
             )
         );
+
+        setChecked(props.invitedPeopleId);
+        setCheckedUsers(props.invitedPeople)
     },[])
 
 
@@ -99,6 +54,7 @@ const InviteList = (props)=>{
 
     const handleToggle = (userId,user) => () => {
         const currentIndex = checked.indexOf(userId);
+        console.log(checked.indexOf(userId));
         const newChecked = [...checked];
         const newCheckedUsers = [...checkedUsers];
 
@@ -113,6 +69,8 @@ const InviteList = (props)=>{
 
         setChecked(newChecked);
         setCheckedUsers(newCheckedUsers);
+        props.setInvitedPeopleId(newChecked);
+        props.setInvitedPeople(newCheckedUsers);
 
         console.log(newCheckedUsers);
     };

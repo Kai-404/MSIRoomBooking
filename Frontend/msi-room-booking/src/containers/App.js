@@ -7,6 +7,7 @@ import './App.scss'
 import InviteList from "../components/InviteList";
 import FacilityList from "../components/FacilityList";
 import AddNewReservation from "./AddNewReservation";
+import InvitationList from "../components/InvitationList";
 
 class App extends React.Component{
 
@@ -17,10 +18,6 @@ class App extends React.Component{
                 <nav >
                     <Header/>
                 </nav>
-                <AddNewReservation>
-
-                </AddNewReservation>
-
                 <main className="app-content" >
                     {this.props.children}
                 </main>

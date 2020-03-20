@@ -8,7 +8,12 @@ import Typography from '@material-ui/core/Typography';
 import AddReservation from "./AddReservation";
 import InviteList from "../components/InviteList";
 import FacilityList from "../components/FacilityList";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import Snackbar from "@material-ui/core/Snackbar";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from '@material-ui/icons/Close';
+import {addReservation} from "../actions/reservations.action";
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -28,16 +33,26 @@ const useStyles = makeStyles(theme => ({
 
 
 
-const AddNewReservation =() =>{
+const AddNewReservation =(props) =>{
 
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
+    const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+    const [snackbarMsg, setSnackbarMsg] = React.useState("Error");
     const steps = getSteps();
 
     const user = useSelector(state => state.user);
 
 
     const [reservationInfo,setReservationInfo]=React.useState({user:user, status:"CREATED"});
+    const [invitedPeople, setInvitedPeople] = React.useState([]);
+    const [invitedPeopleId, setInvitedPeopleId] = React.useState([]);
+    const [addedFacility, setAddedFacility] = React.useState([]);
+    const [addedFacilityId, setAddedFacilityId] = React.useState([]);
+    const [addedFacilityQuantity, setAddedFacilityQuantity] = React.useState([]);
+
+
+    const dispatch = useDispatch();
 
     function getSteps() {
         return ['Reservation info & Time', 'Invite colleague(s)', 'Add extra facilities'];
@@ -47,9 +62,12 @@ const AddNewReservation =() =>{
             case 0:
                 return <AddReservation setReservationInfo={setReservationInfo} reservationInfo={reservationInfo}/>;
             case 1:
-                return <InviteList/>;
+                return <InviteList invitedPeople={invitedPeople} setInvitedPeople={setInvitedPeople}
+                                   invitedPeopleId={invitedPeopleId} setInvitedPeopleId={setInvitedPeopleId}/>;
             case 2:
-                return <FacilityList/>;
+                return <FacilityList addedFacilityId={addedFacilityId} setAddedFacilityId={setAddedFacilityId}
+                                     addedFacilityQuantity={addedFacilityQuantity} setAddedFacilityQuantity={setAddedFacilityQuantity}
+                                     addedFacility={addedFacility} setAddedFacility={setAddedFacility}/>;
             default:
                 return 'something wrong here';
         }
@@ -59,9 +77,65 @@ const AddNewReservation =() =>{
         return ! (step === 0);
     };
 
-    const handleNext = () => {
-        console.log(reservationInfo)
-        setActiveStep(prevActiveStep => prevActiveStep + 1);
+    const handleNext = (event, activeStep) => {
+        console.log(activeStep)
+        switch (activeStep) {
+            case 0:
+                if (! reservationInfo.title){
+                    setSnackbarMsg("Reservation Title Can't be Empty!");
+                    setSnackbarOpen(true);
+                }else if(! (reservationInfo.startTime < reservationInfo.endTime)){
+                    setSnackbarMsg("Reservation Start Time must Smaller than End Time ");
+                    setSnackbarOpen(true);
+                }else if (! reservationInfo.room){
+                    setSnackbarMsg("Please Select a Room");
+                    setSnackbarOpen(true);
+                }else {
+                    setActiveStep(prevActiveStep => prevActiveStep + 1);
+                }
+                break;
+            case 1:
+                if(invitedPeople.length > reservationInfo.room.maxCapacity){
+                    setSnackbarMsg("Invited Number Exceed Room Capacity");
+                    setSnackbarOpen(true);
+                }else {
+                    setActiveStep(prevActiveStep => prevActiveStep + 1);
+
+                }
+                break;
+            case 2:
+
+                // console.log(reservationInfo)
+                // console.log(invitedPeople)
+                // console.log(addedFacility)
+                // console.log(addedFacilityQuantity)
+                if((invitedPeople===[]) && (addedFacility===[])){
+                    reservationInfo.status="Approved"
+                }
+
+
+                dispatch(addReservation(
+                    reservationInfo,
+                    invitedPeople,
+                    addedFacility,
+                    addedFacilityQuantity,
+                    ()=>{
+                        console.log("Add New Reservation success")
+                    },
+                    ()=>{
+                        console.log("Add New Reservation FAIL!!!")
+                    }
+                ));
+
+
+
+
+            default:
+                setActiveStep(prevActiveStep => prevActiveStep + 1);
+
+        }
+
+
 
     };
 
@@ -71,6 +145,10 @@ const AddNewReservation =() =>{
 
     const handleReset = () => {
         setActiveStep(0);
+    };
+
+    const handleBackToHome = ()=>{
+      props.history.push("/home")
     };
 
     return (
@@ -89,20 +167,20 @@ const AddNewReservation =() =>{
                     );
                 })}
             </Stepper>
-            <div>
+            <>
                 {activeStep === steps.length ? (
-                    <div>
+                    <>
                         <Typography className={classes.instructions}>
-                            All steps completed - you&apos;re finished
+                            New Reservation Created
                         </Typography>
-                        <Button onClick={handleReset} className={classes.button}>
-                            Reset
+                        <Button onClick={handleBackToHome} className={classes.button}>
+                            Back to Home Page
                         </Button>
-                    </div>
+                    </>
                 ) : (
-                    <div>
+                    <>
                         <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
-                        <div>
+                        <>
                             <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
                                 Back
                             </Button>
@@ -110,15 +188,33 @@ const AddNewReservation =() =>{
                             <Button
                                 variant="contained"
                                 color="primary"
-                                onClick={handleNext}
+                                onClick={(event)=> handleNext(event, activeStep)}
                                 className={classes.button}
                             >
-                                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                                {activeStep === steps.length - 1 ? 'Create' : 'Next'}
                             </Button>
-                        </div>
-                    </div>
+                        </>
+                    </>
                 )}
-            </div>
+            </>
+
+            <Snackbar
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                }}
+                open={snackbarOpen}
+                autoHideDuration={3000}
+                onClose={()=>{setSnackbarOpen(false)}}
+                message={snackbarMsg}
+                action={
+                    <React.Fragment>
+                        <IconButton size="small" aria-label="close" color="inherit" onClick={()=>{setSnackbarOpen(false)}}>
+                            <CloseIcon fontSize="small" />
+                        </IconButton>
+                    </React.Fragment>
+                }
+            />
         </div>
     );
 }
