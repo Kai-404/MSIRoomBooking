@@ -23,9 +23,9 @@ public class ReservationController {
     }
 
     @PostMapping
-    public void save(@RequestBody Reservation reservation) {
+    public Reservation save(@RequestBody Reservation reservation) {
         System.out.println("Saving: " + reservation);
-        reservationService.save(reservation);
+        return reservationService.save(reservation);
     }
 
     @GetMapping("/user/{userId}")

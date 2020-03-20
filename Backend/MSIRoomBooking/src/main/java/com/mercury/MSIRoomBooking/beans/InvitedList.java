@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class InvitedList {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
     @Column

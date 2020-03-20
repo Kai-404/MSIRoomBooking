@@ -10,6 +10,7 @@ import java.util.Date;
 public class Reservation {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
     @Column
@@ -27,9 +28,11 @@ public class Reservation {
     private String status;
 
     @Column(name = "START_TIME")
+    @Temporal(TemporalType.DATE)
     private Date startTime;
 
     @Column(name = "END_TIME")
+    @Temporal(TemporalType.DATE)
     private Date endTime;
 
     public Reservation() {

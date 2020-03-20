@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +20,9 @@ public class ReservationService {
         return reservationDao.findAll();
     }
 
-    public void save(Reservation reservation) {
+    public Reservation save(Reservation reservation) {
         reservationDao.save(reservation);
+        return reservationDao.findByRoomAndStartTimeAndEndTime( reservation.getRoom(), reservation.getStartTime(),reservation.getEndTime()).get( 0 );
     }
 
     public List<Reservation> getUserReservations(int userId) {

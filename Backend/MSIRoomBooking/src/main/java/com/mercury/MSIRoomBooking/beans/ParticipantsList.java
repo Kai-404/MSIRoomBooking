@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class ParticipantsList {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)

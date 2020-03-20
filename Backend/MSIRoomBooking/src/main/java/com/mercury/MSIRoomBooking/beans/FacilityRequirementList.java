@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class FacilityRequirementList {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
     @Column
