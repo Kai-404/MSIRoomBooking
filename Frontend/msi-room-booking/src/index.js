@@ -14,6 +14,7 @@ import Rooms from "./components/Rooms";
 import Home from "./components/Home";
 import {login} from "./actions/auth.action";
 import AddNewReservation from "./containers/AddNewReservation";
+import ReservationsManager from "./containers/ReservationsManager";
 
 
 ReactDOM.render(
@@ -27,7 +28,7 @@ ReactDOM.render(
                     <Route path={appConstants.loginRoute} component={Login}/>
                     <Route path={appConstants.homeRoute} component={Home}/>
                     <Route path={appConstants.addReservationRoute} component={AddNewReservation}/>
-
+                    <Route path={appConstants.manageReservationsRoute} component={ReservationsManager}/>
                     <Route path="*">
                         <Redirect to={appConstants.loginRoute} component={login}/>
                         {/*<Redirect to={appConstants.homeRoute} component={Home}/>*/}

@@ -1,12 +1,19 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {Scheduler, Appointments, WeekView, AppointmentTooltip} from '@devexpress/dx-react-scheduler-material-ui';
+import {
+    Scheduler,
+    Appointments,
+    WeekView,
+    AppointmentTooltip,
+    DateNavigator, Toolbar
+} from '@devexpress/dx-react-scheduler-material-ui';
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import RoomIcon from '@material-ui/icons/Room';
 import PersonIcon from '@material-ui/icons/Person';
 import {getUserReservations} from "../actions/reservations.action";
 import InvitationList from "./InvitationList";
+import {ViewState} from "@devexpress/dx-react-scheduler";
 
 
 const Content = (({appointmentData, ...restProps}) => (
@@ -69,6 +76,8 @@ const Home = () => {
 
     const reservations = useSelector(state => state.userReservations);
 
+    const [currentDate, setCurrentDate] = useState(new Date())
+
 
     return (
 
@@ -79,19 +88,34 @@ const Home = () => {
                     :(<p>Please login</p>)
 
             }
-        <Paper style={{width: "60vw" , height:"70vh", overflow:'scroll', marginBottom:"30px", marginTop:"30px"}}>
+        <Paper style={{width: "60vw" , height:"90vh", overflow:'scroll', marginBottom:"30px", marginTop:"30px"}}>
 
 
 
             {console.log(reservations)}
             <Scheduler
-                data={reservations}
-
+                data={reservations.map( reservation =>{
+                    return {
+                        startDate: new Date(reservation.startTime),
+                        endDate: new Date(reservation.endTime),
+                        title: reservation.title,
+                        location: reservation.room.name,
+                        organizer: reservation.user.firstName
+                    }
+                })}
+                height={800}
             >
+                <ViewState
+                    currentDate={currentDate}
+                    onCurrentDateChange={(changeDate)=>setCurrentDate(changeDate)}
+                />
                 <WeekView
                     startDayHour={9}
                     endDayHour={18}
                 />
+
+                <Toolbar />
+                <DateNavigator />
                 <Appointments />
                 <AppointmentTooltip
                     showCloseButton
@@ -99,9 +123,6 @@ const Home = () => {
                 />
             </Scheduler>
         </Paper>
-            <InvitationList>
-
-            </InvitationList>
         </div>
     );
 

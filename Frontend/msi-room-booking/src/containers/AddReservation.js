@@ -18,11 +18,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import {addReservation} from "../actions/reservations.action";
 import DialogContent from "@material-ui/core/DialogContent";
-import InviteList from "../components/InviteList";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import {getAllOtherUsers} from "../actions/allOtherUsers.action";
 
 
 const AddReservation =(props)=>{

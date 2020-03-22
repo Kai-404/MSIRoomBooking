@@ -41,3 +41,20 @@ export const updateInvitation = (invitation)=>{
         }
 
 }
+
+export const getReservationInvited = (reservation)=>{
+    const reservationInvitedDetail = axios.post(
+        `${process.env.REACT_APP_API_URL}/invitedLists/reservation`,
+        reservation,
+        {withCredentials: true}
+    ).then(res=>{
+       if (res.status === 200)
+           return res.data
+        return null
+    });
+
+    return{
+        type: appConstants.GET_INVITATIONS,
+        payload: reservationInvitedDetail
+    };
+}

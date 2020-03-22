@@ -10,6 +10,8 @@ import Button from "@material-ui/core/Button";
 import {NavLink} from "react-router-dom";
 import {appConstants} from "../constants/constants";
 import {useDispatch, useSelector} from "react-redux";
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import Tooltip from "@material-ui/core/Tooltip";
 
 
 const Header = () =>{
@@ -40,9 +42,11 @@ const Header = () =>{
                 {/*    user&&*/}
                 {/*    (*/}
                         <NavLink to={appConstants.homeRoute}>
+                            <Tooltip title="Home">
                         <IconButton>
                             <HomeIcon className="nav-action-icon"/>
                         </IconButton>
+                            </Tooltip>
                     </NavLink>
 
                 {/*    )*/}
@@ -52,12 +56,23 @@ const Header = () =>{
                 {/*    user&&*/}
                 {/*    (*/}
                         <NavLink to={appConstants.addReservationRoute}>
+                            <Tooltip title="Add Reservation">
                             <IconButton>
                                 <AddIcon className="nav-action-icon"/>
                             </IconButton>
+                            </Tooltip>
                         </NavLink>
                 {/*    )*/}
                 {/*}*/}
+
+                <NavLink to={appConstants.manageReservationsRoute}>
+                    <Tooltip title="Manage Reservations">
+                    <IconButton>
+                        <ListAltIcon className="nav-action-icon"/>
+                    </IconButton>
+                    </Tooltip>
+                </NavLink>
+
 
 
                 <NavLink to={appConstants.loginRoute} style={{textDecoration: 'none'}}>
