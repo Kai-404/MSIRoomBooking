@@ -34,4 +34,9 @@ public class InvitedListController {
     public InvitedList updateInvitation(@RequestBody InvitedList invitation){
         return  invitedListService.updateInvitation(invitation);
     }
+
+    @PostMapping("/reservation")
+    public List<InvitedList> getInvitedDetailByReservation(@RequestBody Reservation reservation){
+        return invitedListService.getInvitedDetailByReservation( reservation );
+    }
 }

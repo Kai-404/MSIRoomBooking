@@ -10,4 +10,5 @@ public interface InvitedListDao extends JpaRepository<InvitedList, Integer> {
 
     List<InvitedList> findAllByUserAndStatus (User user,String status);
     //<Reservation> findAllReservationByUserAndStatus (User user, String status);
+    List<InvitedList> findAllByReservation (Reservation reservation);
 }
