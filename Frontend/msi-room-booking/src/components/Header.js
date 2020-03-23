@@ -38,9 +38,9 @@ const Header = () =>{
                     MSI-Room Booking
                 </Typography>
 
-                {/*{*/}
-                {/*    user&&*/}
-                {/*    (*/}
+                {
+                    user&&
+                    (
                         <NavLink to={appConstants.homeRoute}>
                             <Tooltip title="Home">
                         <IconButton>
@@ -49,12 +49,12 @@ const Header = () =>{
                             </Tooltip>
                     </NavLink>
 
-                {/*    )*/}
-                {/*}*/}
+                    )
+                }
 
-                {/*{*/}
-                {/*    user&&*/}
-                {/*    (*/}
+                {
+                    user&&
+                    (
                         <NavLink to={appConstants.addReservationRoute}>
                             <Tooltip title="Add Reservation">
                             <IconButton>
@@ -62,18 +62,21 @@ const Header = () =>{
                             </IconButton>
                             </Tooltip>
                         </NavLink>
-                {/*    )*/}
-                {/*}*/}
+                    )
+                }
 
-                <NavLink to={appConstants.manageReservationsRoute}>
-                    <Tooltip title="Manage Reservations">
-                    <IconButton>
-                        <ListAltIcon className="nav-action-icon"/>
-                    </IconButton>
-                    </Tooltip>
-                </NavLink>
-
-
+                {
+                    user&&
+                    (
+                    <NavLink to={appConstants.manageReservationsRoute}>
+                        <Tooltip title="Manage Reservations">
+                        <IconButton>
+                            <ListAltIcon className="nav-action-icon"/>
+                        </IconButton>
+                        </Tooltip>
+                    </NavLink>
+                    )
+                }
 
                 <NavLink to={appConstants.loginRoute} style={{textDecoration: 'none'}}>
                     {

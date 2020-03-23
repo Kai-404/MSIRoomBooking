@@ -109,7 +109,7 @@ const AllReservations =()=> {
 
 
 
-    const createdReservation =  allReservations.filter( reservation => (new Date(reservation.startTime) > new Date()
+    const createdReservation =  allReservations.filter( reservation => (new Date(reservation.endTime) > new Date()
         && reservation.status !== "Canceled"))
 
     const rows = createdReservation.map( reservation => {

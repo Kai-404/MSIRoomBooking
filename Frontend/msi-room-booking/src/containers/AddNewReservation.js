@@ -15,6 +15,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import {addReservation} from "../actions/reservations.action";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
+import Divider from "@material-ui/core/Divider";
 
 
 const useStyles = makeStyles(theme => ({
@@ -181,11 +182,17 @@ const AddNewReservation =(props) =>{
                         </Button>
                     </>
                 ) : (
-                    <>
-                        <Typography className={classes.instructions}>
+                    <Grid container spacing={3} direction="column" justify="flex-start" alignItems="center">
+                        <Grid item sm={10}>
                             {getStepContent(activeStep)}
-                        </Typography>
-                        <>
+                        </Grid>
+                        <Grid
+                            container
+                            direction="row"
+                            justify="center"
+                            alignItems="center"
+                            style={{marginTop: 20, marginBottom:20}}
+                        >
                             <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
                                 Back
                             </Button>
@@ -198,9 +205,9 @@ const AddNewReservation =(props) =>{
                             >
                                 {activeStep === steps.length - 1 ? 'Create' : 'Next'}
                             </Button>
-                        </>
+                        </Grid>
 
-                    </>
+                    </Grid>
                 )}
             </>
 

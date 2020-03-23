@@ -19,6 +19,8 @@ const InvitationList = (props)=>{
     const invitations = useSelector(state=>state.invitations);
     const dispatch = useDispatch();
 
+    const followingInvitations = invitations.filter( invitation => ( new Date(invitation.reservation.endTime) > new Date()));
+
     useEffect(()=>{
         if(user)
             dispatch(getInvitations(user))
@@ -39,7 +41,7 @@ const InvitationList = (props)=>{
 
     }
     return(
-        invitations.length !== 0
+        followingInvitations.length !== 0
             ?(
                 <div>
                     <Typography variant="h6" >

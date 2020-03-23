@@ -61,7 +61,7 @@ const ReservationsManager =() =>{
 
     return (
         <div className={classes.root}>
-            <AppBar position="static" color="default">
+            <AppBar position="static" color="default" style={{width: "80vw"}}>
                 <Tabs
                     value={value}
                     onChange={handleChange}

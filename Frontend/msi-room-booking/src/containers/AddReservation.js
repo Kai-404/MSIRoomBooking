@@ -115,7 +115,7 @@ const AddReservation =(props)=>{
     return(
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Paper className='AddReservation' elevation={10} style={{
-                minWidth: "320px",
+                minWidth: "400px",
                 width: "100%",
                 maxWidth: "400px",
                 height: "450px",

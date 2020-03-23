@@ -14,7 +14,7 @@ import {getAllOtherUsers} from "../actions/allOtherUsers.action";
 const useStyles = makeStyles(theme => ({
     root: {
         width: '100%',
-        maxWidth: 360,
+        maxWidth: "400px",
         backgroundColor: theme.palette.background.paper,
     },
 }));

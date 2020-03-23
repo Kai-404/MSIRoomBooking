@@ -14,6 +14,9 @@ import PersonIcon from '@material-ui/icons/Person';
 import {getUserReservations} from "../actions/reservations.action";
 import InvitationList from "./InvitationList";
 import {ViewState} from "@devexpress/dx-react-scheduler";
+import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
+import {getInvitations} from "../actions/invitations.action";
 
 
 const Content = (({appointmentData, ...restProps}) => (
@@ -40,18 +43,13 @@ const Content = (({appointmentData, ...restProps}) => (
 
 const Home = () => {
 
-
     const dispatch = useDispatch();
-
-
     const user = useSelector(state => state.user);
-
 
 
     useEffect(() => {
 
         if (user){
-
             dispatch(
                 getUserReservations(
                     user,
@@ -62,9 +60,9 @@ const Home = () => {
                         console.log("Get Reservations FAIL!!!")
                     }
                 )
-
-
             )
+
+            dispatch(getInvitations(user))
         }
 
 
@@ -75,55 +73,92 @@ const Home = () => {
 
 
     const reservations = useSelector(state => state.userReservations);
+    const invitations = useSelector(state => state.invitations);
+
+    const followingReservations = reservations.filter( reservation => ( new Date(reservation.endTime) > new Date()
+                                                && reservation.status !== "Canceled"))
+
+    const followingInvitations = invitations.filter( invitation => ( new Date(invitation.reservation.endTime) > new Date()
+                                                                    && invitation.status === "Invited"))
+
 
     const [currentDate, setCurrentDate] = useState(new Date())
 
 
     return (
 
-        <div style={{display:"flex", justifyContent:"center"}}>
-            {
-                user
-                    ? (<p>Welcome Back! {user.lastName}! You are a {user.role.type}</p>)
+        <Grid container direction="row" justify="center" alignItems="flex-start">
+            <Grid item xs={4}>
+                {user
+                    ? (
+                        <Grid container direction="column">
+                            <Grid item>
+                                <Typography variant="h4" >
+                                    Welcome Back
+                                </Typography>
+                            </Grid>
+
+                            <Grid item>
+                                <Typography variant="h5" color="textSecondary">
+                                    {user.role.type}
+                                </Typography>
+                            </Grid>
+
+                            <Grid tiem>
+                                <Typography variant="h5" >
+                                    {user.firstName + " "+user.lastName}
+                                </Typography>
+                            </Grid>
+
+                            <Divider  variant="middle" style={{marginTop: 20, marginBottom:20}}/>
+
+
+                            <Grid tiem>
+                                <Typography variant="subtitle1" >
+                                    You Have {followingReservations.length} following Reservation(s)
+                                    and {followingInvitations.length} pending Invitation(s)
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                    )
                     :(<p>Please login</p>)
+                }
+            </Grid>
 
-            }
-        <Paper style={{width: "60vw" , height:"90vh", overflow:'scroll', marginBottom:"30px", marginTop:"30px"}}>
+            <Grid item xs ={8}>
+            <Paper style={{width: "60vw" , height:"90vh", overflow:'scroll', marginBottom:"30px"}}>
+                <Scheduler
+                    data={reservations.map( reservation =>{
+                        return {
+                            startDate: new Date(reservation.startTime),
+                            endDate: new Date(reservation.endTime),
+                            title: reservation.title,
+                            location: reservation.room.name,
+                            organizer: reservation.user.firstName
+                        }
+                    })}
+                    height={800}
+                >
+                    <ViewState
+                        currentDate={currentDate}
+                        onCurrentDateChange={(changeDate)=>setCurrentDate(changeDate)}
+                    />
+                    <WeekView
+                        startDayHour={9}
+                        endDayHour={18}
+                    />
 
-
-
-            {console.log(reservations)}
-            <Scheduler
-                data={reservations.map( reservation =>{
-                    return {
-                        startDate: new Date(reservation.startTime),
-                        endDate: new Date(reservation.endTime),
-                        title: reservation.title,
-                        location: reservation.room.name,
-                        organizer: reservation.user.firstName
-                    }
-                })}
-                height={800}
-            >
-                <ViewState
-                    currentDate={currentDate}
-                    onCurrentDateChange={(changeDate)=>setCurrentDate(changeDate)}
-                />
-                <WeekView
-                    startDayHour={9}
-                    endDayHour={18}
-                />
-
-                <Toolbar />
-                <DateNavigator />
-                <Appointments />
-                <AppointmentTooltip
-                    showCloseButton
-                    contentComponent={Content}
-                />
-            </Scheduler>
-        </Paper>
-        </div>
+                    <Toolbar />
+                    <DateNavigator />
+                    <Appointments />
+                    <AppointmentTooltip
+                        showCloseButton
+                        contentComponent={Content}
+                    />
+                </Scheduler>
+            </Paper>
+            </Grid>
+        </Grid>
     );
 
 }
