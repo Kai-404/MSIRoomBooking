@@ -16,10 +16,11 @@ import DialogContent from "@material-ui/core/DialogContent";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import ReservationDetail from "./ReservationDetail";
-import {cancelReservation} from "../actions/reservations.action";
+import {cancelReservation, getAllReservation, getUserReservations} from "../actions/reservations.action";
 
 const columns = [
     { id: 'title', label: 'Reservation Title', minWidth: 150 },
+    { id: 'organizer', label: 'Organizer', minWidth: 150 },
     { id: 'date', label: 'Date', minWidth: 100 },
     {
         id: 'startTime',
@@ -56,7 +57,7 @@ const useStyles = makeStyles({
     },
 });
 
-const ResCreatedByMe =()=> {
+const AllReservations =()=> {
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -65,6 +66,9 @@ const ResCreatedByMe =()=> {
 
     const dispatch = useDispatch();
 
+    React.useEffect(()=>{
+        dispatch(getAllReservation(()=>{console.log("Success")},()=>{console.log("Fail")}))
+    },[])
 
     const handleClose = () => {
         setOpen(false);
@@ -74,12 +78,12 @@ const ResCreatedByMe =()=> {
         reservation.status="Canceled";
         dispatch(
             cancelReservation(reservation,
-            ()=>{
-                console.log("Cancel Reservations Success")
-            },
-            ()=>{
-                console.log("Cancel Reservations FAIL!!!")
-            }));
+                ()=>{
+                    console.log("Cancel Reservations Success")
+                },
+                ()=>{
+                    console.log("Cancel Reservations FAIL!!!")
+                }));
         setOpen(false);
 
     }
@@ -100,24 +104,24 @@ const ResCreatedByMe =()=> {
     }
 
 
-    const reservations = useSelector(state => state.userReservations)
+    const allReservations = useSelector(state => state.allReservations)
     const user = useSelector(state => state.user)
 
 
 
-    const createdReservation =  reservations.filter( reservation => (reservation.user.id === user.id
-                                                                        && new Date(reservation.startTime) > new Date()
-                                                                        && reservation.status !== "Canceled"))
+    const createdReservation =  allReservations.filter( reservation => (new Date(reservation.startTime) > new Date()
+        && reservation.status !== "Canceled"))
 
     const rows = createdReservation.map( reservation => {
         return {
-                title: reservation.title,
-                date : new Date(reservation.startTime).toLocaleDateString(),
+            title: reservation.title,
+            organizer: reservation.user.firstName+" "+reservation.user.lastName,
+            date : new Date(reservation.startTime).toLocaleDateString(),
             startTime : new Date(reservation.startTime).toLocaleTimeString(),
             endTime : new Date(reservation.endTime).toLocaleTimeString(),
             location : reservation.room.name,
             reservation: reservation
-            }
+        }
     });
 
 
@@ -184,9 +188,11 @@ const ResCreatedByMe =()=> {
                     <ReservationDetail id="reservation-detail"reservation={reservation}/>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleCancelReservation} color="secondary">
-                        Cancel This Reservation
-                    </Button>
+                    {user.role.type === "Manager"?
+                        < Button onClick={handleCancelReservation} color="secondary">
+                            Cancel This Reservation
+                        </Button>:null
+                    }
                     <Button onClick={handleClose} color="primary">
                         OK
                     </Button>
@@ -196,10 +202,10 @@ const ResCreatedByMe =()=> {
         </Paper>
     ):(
         <Typography variant="h6" >
-            You don't have any following reservation
+            You don't have any following accepted reservation
         </Typography>
     );
 
 }
 
-export default ResCreatedByMe
+export default AllReservations

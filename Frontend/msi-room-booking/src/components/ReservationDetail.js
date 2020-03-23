@@ -102,6 +102,7 @@ const ReservationDetail = (props) =>{
                 { invitedDetail.length !== 0?
                     invitedDetail.map(invited =>
                     <Grid item xs={12} sm={6}>
+                        <Paper>
                         <ListItem key={invited.user.id} >
                             <ListItemAvatar>
                                 <Avatar>
@@ -124,6 +125,7 @@ const ReservationDetail = (props) =>{
                                 )
                             }
                         </ListItem>
+                        </Paper>
 
                     </Grid>
                 ):<Grid item xs={12} >

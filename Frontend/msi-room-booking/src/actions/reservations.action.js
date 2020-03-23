@@ -89,3 +89,50 @@ export const getUserReservations =(user, success, fail)=>{
         payload: scheduleDataPromise
     };
 }
+
+export const cancelReservation = (reservation, success, fail) =>{
+
+    const cancelReservationPromise = axios.post(
+        `${process.env.REACT_APP_API_URL}/reservations/cancel`,
+        reservation,
+        {withCredentials: true}
+    ).then(res => {
+        res.status === 200
+            ?typeof success === 'function' && success()
+            :typeof fail === 'function' && fail();
+
+        return res;
+    }).catch(err => {
+        fail && fail();
+        return null;
+    });
+
+    return{
+        type: appConstants.CANCEL_RESERVATION,
+        payload: cancelReservationPromise
+    }
+
+}
+
+export const getAllReservation = (success,fail) =>{
+
+    const allReservationPromise = axios.get(
+        `${process.env.REACT_APP_API_URL}/reservations`,
+        {withCredentials: true}
+    ).then(res => {
+        res.status === 200
+            ?typeof success === 'function' && success()
+            :typeof fail === 'function' && fail();
+
+        return res;
+    }).catch(err => {
+        fail && fail();
+        return null;
+    });
+
+    return{
+        type: appConstants.GET_ALL_RESERVATION,
+        payload: allReservationPromise
+    }
+
+}

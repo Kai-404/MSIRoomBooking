@@ -9,6 +9,9 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import InvitationList from "../components/InvitationList";
 import ResCreatedByMe from "../components/ResCreatedByMe";
+import ResAccepted from "../components/ResAccepted";
+import {useSelector} from "react-redux";
+import AllReservations from "../components/AllReservations";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -46,6 +49,7 @@ const ReservationsManager =() =>{
     const classes = useStyles();
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
+    const user = useSelector(state=>state.user);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -67,11 +71,11 @@ const ReservationsManager =() =>{
                     centered
                     aria-label="full width tabs example"
                 >
-                    <Tab label="Invitations" id={0}  style={{textTransform : "none"}}/>
-                    <Tab label="Created by Me" id={1} style={{textTransform : "none"}} />
+                    <Tab label="Created by Me" id={0}  style={{textTransform : "none"}}/>
+                    <Tab label="Invitations" id={1} style={{textTransform : "none"}} />
                     <Tab label="Accepted Invitation" id={2} style={{textTransform : "none"}} />
-                    {
-                        "a"?<Tab label="All Reservations in Company" id={3}  style={{textTransform : "none"}}/>:null
+                    {user.role.type === "Manager"
+                        ? <Tab label="All Reservations in Company" id={3}  style={{textTransform : "none"}}/>:null
                     }
 
                 </Tabs>
@@ -82,16 +86,16 @@ const ReservationsManager =() =>{
                 onChangeIndex={handleChangeIndex}
             >
                 <TabPanel value={value} index={0} dir={theme.direction}>
-                    <InvitationList></InvitationList>
-                </TabPanel>
-                <TabPanel value={value} index={1} dir={theme.direction}>
                     <ResCreatedByMe></ResCreatedByMe>
                 </TabPanel>
+                <TabPanel value={value} index={1} dir={theme.direction}>
+                    <InvitationList></InvitationList>
+                </TabPanel>
                 <TabPanel value={value} index={2} dir={theme.direction}>
-                    Item Three
+                    <ResAccepted></ResAccepted>
                 </TabPanel>
                 <TabPanel value={value} index={3} dir={theme.direction}>
-                    Item Four
+                    <AllReservations> </AllReservations>
                 </TabPanel>
             </SwipeableViews>
         </div>
