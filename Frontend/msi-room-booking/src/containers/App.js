@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from "../components/Header";
 import './App.scss'
+import ReservationDetail from "../components/ReservationDetail";
 
 
 class App extends React.Component{

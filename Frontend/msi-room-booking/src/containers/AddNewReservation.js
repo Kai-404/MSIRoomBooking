@@ -13,6 +13,8 @@ import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from '@material-ui/icons/Close';
 import {addReservation} from "../actions/reservations.action";
+import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
 
 
 const useStyles = makeStyles(theme => ({
@@ -153,6 +155,7 @@ const AddNewReservation =(props) =>{
 
     return (
         <div className={classes.root}>
+
             <Stepper activeStep={activeStep} >
                 {steps.map((label, index) => {
                     const stepProps = {};
@@ -179,7 +182,9 @@ const AddNewReservation =(props) =>{
                     </>
                 ) : (
                     <>
-                        <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
+                        <Typography className={classes.instructions}>
+                            {getStepContent(activeStep)}
+                        </Typography>
                         <>
                             <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
                                 Back
@@ -194,9 +199,11 @@ const AddNewReservation =(props) =>{
                                 {activeStep === steps.length - 1 ? 'Create' : 'Next'}
                             </Button>
                         </>
+
                     </>
                 )}
             </>
+
 
             <Snackbar
                 anchorOrigin={{
