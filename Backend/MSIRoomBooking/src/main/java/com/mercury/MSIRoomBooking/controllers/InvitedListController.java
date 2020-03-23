@@ -21,7 +21,6 @@ public class InvitedListController {
 
     @PostMapping
     public void save(@RequestBody List<InvitedList> invitedList) {
-        System.out.println( "HelloWorld" );
         invitedListService.save(invitedList);
     }
 
