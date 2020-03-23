@@ -54,7 +54,7 @@ export const getReservationInvited = (reservation)=>{
     });
 
     return{
-        type: appConstants.GET_INVITATIONS,
+        type: appConstants.GET_RESERVATION_INVITED_DETAIL,
         payload: reservationInvitedDetail
     };
 }

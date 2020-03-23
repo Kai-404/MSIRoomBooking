@@ -187,11 +187,6 @@ const AddReservation =(props)=>{
                     : <p>No Room Selected</p>
             }
 
-            {/*<Button variant="contained" color="primary" onClick={handleSubmit}>*/}
-            {/*    Create This Reservation*/}
-            {/*</Button>*/}
-
-
             <Dialog fullScreen open={open} onClose={handleClose} >
                 <AppBar >
                     <Toolbar position="fixed">

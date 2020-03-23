@@ -11,6 +11,11 @@ import TableRow from '@material-ui/core/TableRow';
 import {useSelector} from "react-redux";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import ReservationDetail from "./ReservationDetail";
 
 const columns = [
     { id: 'title', label: 'Reservation Title', minWidth: 150 },
@@ -55,6 +60,15 @@ const ResCreatedByMe =()=> {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
+    const [open, setOpen] = React.useState(false);
+    // const [scroll, setScroll] = React.useState('paper');
+    const [reservation, setReservation] = React.useState({});
+
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -66,6 +80,8 @@ const ResCreatedByMe =()=> {
 
     const handleDetail =(event,reservation)=>{
         console.log(reservation);
+        setOpen(true);
+        setReservation(reservation);
     }
 
     const reservations = useSelector(state => state.userReservations)
@@ -135,12 +151,37 @@ const ResCreatedByMe =()=> {
                 onChangePage={handleChangePage}
                 onChangeRowsPerPage={handleChangeRowsPerPage}
             />
+
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                fullWidth={true}
+                maxWidth = {'md'}
+                scroll="paper"
+                aria-labelledby="scroll-dialog-title"
+                aria-describedby="scroll-dialog-description"
+            >
+                <DialogTitle id="scroll-dialog-title">Subscribe</DialogTitle>
+                <DialogContent dividers>
+                    <ReservationDetail reservation={reservation}/>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleClose} color="primary">
+                        Subscribe
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
         </Paper>
     ):(
         <Typography variant="h6" >
             You don't have any following reservation
         </Typography>
     );
+
 }
 
 export default ResCreatedByMe

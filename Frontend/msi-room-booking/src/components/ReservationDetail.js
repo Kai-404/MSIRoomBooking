@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getReservationFacilityDetail} from "../actions/facilityList.action";
 import {getReservationInvited} from "../actions/invitations.action";
 import {Paper} from "@material-ui/core";
@@ -21,14 +21,16 @@ const ReservationDetail = (props) =>{
 
     const dispatch = useDispatch();
     const reservation = props.reservation
-    const facilityDetail = React.useState(state => state.reservationFacility)
-    const invitedDetail = React.useState(state => state.reservationInvited)
+    const facilityDetail = useSelector(state => state.reservationFacility)
+    const invitedDetail = useSelector(state => state.reservationInvited)
 
 
     useEffect(()=>{
         if(reservation) {
             dispatch(
-                getReservationFacilityDetail(reservation),
+                getReservationFacilityDetail(reservation)
+            )
+            dispatch(
                 getReservationInvited(reservation)
             )
         }
@@ -97,7 +99,8 @@ const ReservationDetail = (props) =>{
                     Invited People:
                 </Typography>
                 </Grid>
-                {invitedDetail.map(invited =>
+                { invitedDetail.length !== 0?
+                    invitedDetail.map(invited =>
                     <Grid item xs={12} sm={6}>
                         <ListItem key={invited.user.id} >
                             <ListItemAvatar>
@@ -123,7 +126,12 @@ const ReservationDetail = (props) =>{
                         </ListItem>
 
                     </Grid>
-                )}
+                ):<Grid item xs={12} >
+                        <Typography variant="h6" style={{textAlign:"center"}}>
+                            No people invited for this reservation
+                        </Typography>
+                    </Grid>
+                }
                 </Grid>
 
             <Divider  style={{marginTop: 20, marginBottom:20}}/>
@@ -134,7 +142,8 @@ const ReservationDetail = (props) =>{
                         Added Facility:
                     </Typography>
                 </Grid>
-                {facilityDetail.map(facility =>
+                { facilityDetail.length !== 0?
+                    facilityDetail.map(facility =>
                     <Grid item xs={12} sm={6} >
                         <Card style={{display:"flex",width:"30"}}>
                             <CardMedia>
@@ -153,7 +162,13 @@ const ReservationDetail = (props) =>{
                             </div>
                         </Card>
                     </Grid>
-                )}
+                ):
+                    <Grid item xs={12} >
+                        <Typography variant="h6" style={{textAlign:"center"}}>
+                            No facility added for this reservation
+                        </Typography>
+                    </Grid>
+                }
                 </Grid>
 
         </Paper>
