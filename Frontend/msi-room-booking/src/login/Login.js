@@ -12,6 +12,7 @@ import {login} from "../actions/auth.action";
 import Snackbar from "@material-ui/core/Snackbar";
 import {appConstants} from "../constants/constants";
 import './Login.scss'
+import Typography from "@material-ui/core/Typography";
 
 
 
@@ -92,14 +93,14 @@ const Login = (props) =>{
         <Paper className='Login' elevation={10}>
             <div className="overlay"/>
             <form className="login-form" onSubmit={handleSubmit}>
-                <div className="login-icon">
-                    <LoginIcon/>
-                </div>
+                <Typography variant="h4" style={{textAlign:"center",color:"white"}} >
+                    Login
+                </Typography>
 
                 <TextField
                     name = "username"
                     className={classes.root}
-                    label = "Username"
+                    label = "Email"
                     value={user.username}
                     onChange={handleFormControl}
                     InputProps={{

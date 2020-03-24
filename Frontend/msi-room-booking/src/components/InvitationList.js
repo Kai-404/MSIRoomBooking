@@ -41,17 +41,17 @@ const InvitationList = (props)=>{
 
     }
     return(
-        followingInvitations.length !== 0
+        invitations.filter(invitation => new Date(invitation.reservation.endTime)>= new Date()).length !== 0
             ?(
                 <div>
                     <Typography variant="h6" >
                             Your Invitation(s):
                     </Typography>
                     <List>
-                        {console.log(invitations)}
                         {
-                            invitations.map(invitation => (
+                            invitations.filter(invitation => new Date(invitation.reservation.endTime)>= new Date()).map(invitation => (
                                 <ListItem key={invitation.id}>
+                                    {console.log(invitation)}
                                     <ListItemText
                                         primary= {`${invitation.reservation.title} by ${invitation.reservation.user.firstName}`}
                                         secondary= {`From ${new Date(invitation.reservation.startTime).toLocaleString()} 

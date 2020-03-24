@@ -117,10 +117,6 @@ const AddNewReservation =(props) =>{
                 break;
             case 2:
 
-                // console.log(reservationInfo)
-                // console.log(invitedPeople)
-                // console.log(addedFacility)
-                // console.log(addedFacilityQuantity)
                 if((invitedPeople===[]) && (addedFacility===[])){
                     reservationInfo.status="Approved"
                 }
