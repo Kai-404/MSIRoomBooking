@@ -19,7 +19,6 @@ public class FacilityService {
 
     public void save(Facility facility) {
             facilityDao.save(facility);
-
     }
 
     public List<Facility> getAll(){
