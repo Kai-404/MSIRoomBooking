@@ -15,6 +15,10 @@ public class FacilityRequirementListService {
     @Autowired
     private FacilityRequirememtListDao facilityRequirememtListDao;
 
+    public List<FacilityRequirementList> getAll(){
+        return facilityRequirememtListDao.findAll();
+    }
+
     public void save(List<FacilityRequirementList> facilityRequirementList) {
             facilityRequirememtListDao.saveAll( facilityRequirementList );
 
