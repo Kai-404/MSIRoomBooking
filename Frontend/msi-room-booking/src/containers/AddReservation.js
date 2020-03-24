@@ -19,11 +19,15 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import DialogContent from "@material-ui/core/DialogContent";
+import {getAllReservation} from "../actions/reservations.action";
 
 
 const AddReservation =(props)=>{
 
     const user = useSelector(state => state.user);
+    const allReservations = useSelector(state => state.allReservations);
+    const dispatch = useDispatch();
+
 
 
     const [reservationTitle, setReservationTitle] = React.useState("New Reservation")
@@ -49,7 +53,9 @@ const AddReservation =(props)=>{
             props.setReservationInfo(props.reservationInfo);
         }
 
-    })
+        dispatch(getAllReservation(()=>console.log("success"), ()=> console.log("fail")))
+
+    },[])
 
     const handleTitleChange =(event)=>{
         setReservationTitle(event.target.value);
@@ -87,30 +93,6 @@ const AddReservation =(props)=>{
         props.setReservationInfo(props.reservationInfo)
     };
 
-    const dispatch = useDispatch();
-
-    // const handleSubmit =()=>{
-    //    const reservation = {
-    //        title : reservationTitle,
-    //        startTime: selectedStartDate,
-    //        endTime: selectedEndDate,
-    //        user: user,
-    //        room: selectedRoom,
-    //        status:"CREATED"
-    //     }
-    //
-    //     dispatch(addReservation(
-    //         reservation,
-    //         ()=>{
-    //             console.log("Add New Reservation success")
-    //         },
-    //         ()=>{
-    //             console.log("Add New Reservation FAIL!!!")
-    //         }
-    //     ));
-    //
-    //
-    // }
 
     return(
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -199,7 +181,7 @@ const AddReservation =(props)=>{
                     </Toolbar>
                 </AppBar>
                 <DialogContent style={{marginTop:"65px"}}>
-                    <Rooms setSelectedRoom={setSelectedRoom} handleClose={handleClose} />
+                    <Rooms setSelectedRoom={setSelectedRoom} handleClose={handleClose} startTime={selectedStartDate} endTime={selectedEndDate} allReservations={allReservations}/>
                 </DialogContent>
 
             </Dialog>

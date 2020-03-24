@@ -12,7 +12,6 @@ import Grid from "@material-ui/core/Grid";
 import RoomIcon from '@material-ui/icons/Room';
 import PersonIcon from '@material-ui/icons/Person';
 import {getUserReservations} from "../actions/reservations.action";
-import InvitationList from "./InvitationList";
 import {ViewState} from "@devexpress/dx-react-scheduler";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
@@ -126,9 +125,9 @@ const Home = () => {
             </Grid>
 
             <Grid item xs ={8}>
-            <Paper style={{width: "60vw" , height:"90vh", overflow:'scroll', marginBottom:"30px"}}>
+            <Paper style={{width: "60vw" , height:"90vh", overflow:'scroll'}}>
                 <Scheduler
-                    data={reservations.map( reservation =>{
+                    data={reservations.filter(reservation => reservation.status !== "Canceled").map( reservation =>{
                         return {
                             startDate: new Date(reservation.startTime),
                             endDate: new Date(reservation.endTime),

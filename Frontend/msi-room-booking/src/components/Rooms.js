@@ -5,77 +5,85 @@ import CardMedia from "@material-ui/core/CardMedia";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import CardActions from "@material-ui/core/CardActions";
-import Button from "@material-ui/core/Button";
-
 import "./Rooms.scss";
-import {connect} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getRooms} from "../actions/rooms.action";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
 
-class Rooms extends React.Component{
 
-    componentDidMount() {
-        this.props.getRooms();
-    }
+const Rooms =(props)=>{
 
-    // rooms = [
-    //     { name: 'Training Room A', maxCapacity: 12, status: 'IN USE', image: 'https://ballantyneexecutivesuites.com/wp-content/uploads/2015/10/Depositphotos_13534536_original.jpg' },
-    //     { name: 'Training Room B', maxCapacity: 10, status: 'IN USE', image: 'https://28fs5qpte772a5kdy3ndzx31-wpengine.netdna-ssl.com/wp-content/uploads/2019/05/16-0041815.gif' }
-    // ];
+    const dispatch = useDispatch()
 
-    handleAction = (event,room)=>{
-        this.props.setSelectedRoom(room)
-        this.props.handleClose(event, room);
-    }
+    const [occupiedRooms, setOccupiedRooms] = React.useState([])
+    const rooms = useSelector(state => state.rooms)
 
 
 
+    React.useEffect(()=>{
+        dispatch(getRooms())
+        setOccupiedRooms(
+        props.allReservations.filter( reservation =>{
+                return (
+                    (
+                        ((new Date(props.startTime) <= new Date(reservation.startTime))
+                            &&(new Date(props.endTime) > new Date(reservation.startTime))) ||
+                        ((new Date(props.startTime) >= new Date(reservation.startTime))
+                            &&(new Date(props.startTime) < new Date(reservation.endTime)))
+                    )
+                )
+            }).map(reservation => reservation.room)
 
-
-    render() {
-        return (
-            <Grid container spacing={3}>
-                {
-                    this.props.rooms && this.props.rooms.map( r => r.status==="IN USE" && (
-                        <Grid item xs={12} sm={6} md={4}>
-
-                            <Card id={r.id} key={r.id}>
-                                <CardActionArea id={r.id} name={r.name} onClick={(event)=> this.handleAction(event, r)}>
-                                    <CardMedia
-                                        component="img"
-                                        alt={r.name}
-                                        image={r.image}
-                                        height = "300"
-                                    />
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h5" component="h2">
-                                            {r.name}
-                                        </Typography>
-                                        <Typography variant="body1" color="textSecondary" component="p">
-                                            Max Capacity: {r.maxCapacity}
-                                        </Typography>
-                                    </CardContent>
-
-                                </CardActionArea>
-                            </Card>
-                        </Grid>
-                    ))
-
-
-                }
-            </Grid>
         );
+
+
+
+    },[])
+
+
+
+
+    const handleAction = (event,room)=>{
+        props.setSelectedRoom(room)
+        props.handleClose(event, room);
     }
 
 
+    return (
+        <Grid container spacing={3}>
+            {
+                rooms.filter( room => ! occupiedRooms.map(oRooms=>oRooms.id).includes(room.id)) ?
+                    (rooms.filter( room => ! occupiedRooms.map(oRooms=>oRooms.id).includes(room.id)).map( r => r.status==="IN USE" && (
+                    <Grid item xs={12} sm={6} md={4}>
+
+                        <Card id={r.id} key={r.id}>
+                            <CardActionArea id={r.id} name={r.name} onClick={(event)=> handleAction(event, r)}>
+                                <CardMedia
+                                    component="img"
+                                    alt={r.name}
+                                    image={r.image}
+                                    height = "300"
+                                />
+                                <CardContent>
+                                    <Typography gutterBottom variant="h5" component="h2">
+                                        {r.name}
+                                    </Typography>
+                                    <Typography variant="body1" color="textSecondary" component="p">
+                                        Max Capacity: {r.maxCapacity}
+                                    </Typography>
+                                </CardContent>
+
+                            </CardActionArea>
+                        </Card>
+                    </Grid>
+                ))):
+                    <Typography variant="h6" >
+                        No available room at selected time slot
+                    </Typography>
+
+
+            }
+        </Grid>
+    );
 }
 
-
-function mapStateToProps({rooms}) {
-    return {rooms};
-}
-
-export default connect(mapStateToProps,{getRooms})(Rooms);
-
+export default Rooms;
