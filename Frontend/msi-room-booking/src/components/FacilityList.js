@@ -20,6 +20,9 @@ const FacilityList = (props)=>{
     const [quantity, setQuantity] = React.useState([]);
     const [facilitySelectedList, setfacilitySelectedList] = React.useState([]);
 
+    const [facilityIndex, setFacilityIndex] = React.useState([]);
+    const [facilityQuantity,setFacilityQuantity]=React.useState([]);
+
 
     const handleOnChange = (value, facility)=>{
         console.log(value,facility);
@@ -73,6 +76,33 @@ const FacilityList = (props)=>{
         setQuantity(props.addedFacilityQuantity);
         setfacilitySelectedList(props.addedFacility);
 
+        const startDay = new Date(new Date(props.startTime).toDateString());
+        const tempDate = new Date(new Date(props.startTime).toDateString());
+        const endDay = new Date(tempDate.setDate(tempDate.getDate() + 1));
+
+        const todayFacility = props.allFacilityRequire.filter(facilityRequire => new Date(facilityRequire.reservation.startTime)>=startDay
+            && new Date(facilityRequire.reservation.endTime)<=endDay && facilityRequire.reservation.status !== "Canceled")
+
+        const todayFacilityRequire = todayFacility.map(tf =>{
+            return { id : tf.facility.id, amount : tf.quantity}
+        })
+
+        const tempIndex = facilityIndex;
+        const tempQuantity = facilityQuantity;
+
+        todayFacilityRequire.forEach( tfr =>{
+            if (tempIndex.includes(tfr.id)){
+                tempQuantity[tempIndex.indexOf(tfr.id)] += tfr.amount;
+            }else {
+                tempIndex.push(tfr.id);
+                tempQuantity.push(tfr.amount);
+            }
+        })
+
+        setFacilityIndex(tempIndex);
+        setFacilityQuantity(tempQuantity);
+
+
     },[]);
 
 
@@ -98,7 +128,7 @@ const FacilityList = (props)=>{
                                         {facility.name}
                                     </Typography>
                                     <Typography variant="subtitle2" color="textSecondary">
-                                        Stock : {facility.stock}
+                                        Stock : {facility.stock - (facilityIndex.includes(facility.id)? facilityQuantity[facilityIndex.indexOf(facility.id)]:0)}
                                     </Typography>
 
                                     <TextField
@@ -112,7 +142,7 @@ const FacilityList = (props)=>{
                                                 : props.addedFacilityQuantity[props.addedFacilityId.indexOf(facility.id)]
                                         }
                                         inputProps={{
-                                            max: facility.stock,
+                                            max: facility.stock - (facilityIndex.includes(facility.id)? facilityQuantity[facilityIndex.indexOf(facility.id)]:0),
                                             min:0
                                         }}
                                         onChange={(event)=>{handleOnChange(event.target.value,facility)}}

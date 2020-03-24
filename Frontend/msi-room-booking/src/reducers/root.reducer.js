@@ -8,6 +8,7 @@ import {invitationsReducer} from "./invitations.reducer";
 import {reservationFacilityReducer} from "./reservationFacilityDetail.reducer";
 import {reservationInvitedReducer} from "./reservationInvitedDetail.reducer";
 import {allReservationReducer} from "./allReservations.reducer";
+import {allFacilityRequireReducer} from "./allFacilityRequire.reducer";
 
 export const rootReducer = combineReducers({
     rooms: roomsReducer,
@@ -18,5 +19,6 @@ export const rootReducer = combineReducers({
     invitations: invitationsReducer,
     reservationFacility: reservationFacilityReducer,
     reservationInvited: reservationInvitedReducer,
-    allReservations: allReservationReducer
+    allReservations: allReservationReducer,
+    allFacilityRequire: allFacilityRequireReducer
 });

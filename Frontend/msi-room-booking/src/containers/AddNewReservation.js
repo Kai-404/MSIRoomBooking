@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -16,6 +16,7 @@ import {addReservation} from "../actions/reservations.action";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
+import {getAllFacilityRequire} from "../actions/facilityList.action";
 
 
 const useStyles = makeStyles(theme => ({
@@ -45,7 +46,13 @@ const AddNewReservation =(props) =>{
     const steps = getSteps();
 
     const user = useSelector(state => state.user);
+    const allFacilityRequire = useSelector(state => state.allFacilityRequire)
 
+    useEffect(()=>{
+        dispatch(
+        getAllFacilityRequire()
+        )
+    },[])
 
     const [reservationInfo,setReservationInfo]=React.useState({user:user, status:"CREATED"});
     const [invitedPeople, setInvitedPeople] = React.useState([]);
@@ -70,7 +77,9 @@ const AddNewReservation =(props) =>{
             case 2:
                 return <FacilityList addedFacilityId={addedFacilityId} setAddedFacilityId={setAddedFacilityId}
                                      addedFacilityQuantity={addedFacilityQuantity} setAddedFacilityQuantity={setAddedFacilityQuantity}
-                                     addedFacility={addedFacility} setAddedFacility={setAddedFacility}/>;
+                                     addedFacility={addedFacility} setAddedFacility={setAddedFacility}
+                                     startTime={reservationInfo.startTime} endTime={reservationInfo.endTime}
+                                     allFacilityRequire={allFacilityRequire}/>;
             default:
                 return 'something wrong here';
         }

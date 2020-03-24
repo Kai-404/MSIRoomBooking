@@ -40,3 +40,20 @@ export const getReservationFacilityDetail =(reservation)=>{
         payload: reservationFacilityDetail
     }
 }
+
+export const getAllFacilityRequire = ()=>{
+
+    const allFacilityRequirePromise = axios.get(
+        `${process.env.REACT_APP_API_URL}/facilityRequirementLists`,
+        {withCredentials: true}
+    ).then(res=>{
+        if (res.status === 200)
+            return res.data
+        return null
+    });
+
+    return{
+        type: appConstants.GET_ALL_FACILITY_REQUIRE,
+        payload: allFacilityRequirePromise
+    }
+}
