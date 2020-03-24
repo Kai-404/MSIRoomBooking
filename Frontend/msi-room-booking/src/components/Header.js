@@ -4,7 +4,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import HomeIcon from "@material-ui/icons/Home";
-import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import AddIcon from '@material-ui/icons/Add';
 import Button from "@material-ui/core/Button";
 import {NavLink} from "react-router-dom";
@@ -12,6 +11,7 @@ import {appConstants} from "../constants/constants";
 import {useDispatch, useSelector} from "react-redux";
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import Tooltip from "@material-ui/core/Tooltip";
+import GavelIcon from '@material-ui/icons/Gavel';
 
 
 const Header = () =>{
@@ -75,6 +75,19 @@ const Header = () =>{
                         </IconButton>
                         </Tooltip>
                     </NavLink>
+                    )
+                }
+
+                {
+                    user&&user.role.type === "Facility Manager" &&
+                    (
+                        <NavLink to={appConstants.facilityManagerPageRoute}>
+                            <Tooltip title="Facility Manager">
+                                <IconButton>
+                                    <GavelIcon className="nav-action-icon"/>
+                                </IconButton>
+                            </Tooltip>
+                        </NavLink>
                     )
                 }
 

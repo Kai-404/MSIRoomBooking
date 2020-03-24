@@ -57,3 +57,20 @@ export const getAllFacilityRequire = ()=>{
         payload: allFacilityRequirePromise
     }
 }
+
+export const saveFacility =(facility)=>{
+    const saveFacilityPromise = axios.post(
+        `${process.env.REACT_APP_API_URL}/facilities`,
+        facility,
+        {withCredentials: true}
+    ).then(res=>{
+        if (res.status === 200)
+            return res
+        return null
+    });
+
+    return{
+        type: appConstants.UPDATE_FACILITY,
+        payload: saveFacilityPromise
+    }
+}

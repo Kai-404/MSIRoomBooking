@@ -5,6 +5,7 @@ export const appConstants = {
     roomsRoute:'/rooms',
     addReservationRoute:"/addReservation",
     manageReservationsRoute:"/manageReservations",
+    facilityManagerPageRoute:"/facilityManagerPage",
     // actions
     LOGIN: 'LOGIN',
     LOGOUT: 'LOGOUT',
@@ -21,6 +22,8 @@ export const appConstants = {
     GET_RESERVATION_FACILITY_DETAIL:"GET_RESERVATION_FACILITY_DETAIL",
     GET_RESERVATION_INVITED_DETAIL:"GET_RESERVATION_INVITED_DETAIL",
     UPDATE_INVITATIONS:"UPDATE_INVITATIONS",
+    UPDATE_FACILITY:"UPDATE_FACILITY",
+    UPDATE_ROOM:"UPDATE_ROOM",
     LOGIN_SUCCESS_MSG: 'Welcome Back! ',
     LOGIN_FAILED_MSG: 'Logged in failed, please try again!',
     RESERVATION_FIELD: [

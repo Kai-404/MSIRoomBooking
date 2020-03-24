@@ -10,3 +10,20 @@ export const getRooms = () => {
         payload: getRoomsPromise
     };
 };
+
+export const updateRoom =(room)=>{
+    const updateRoomPromise = axios.post(
+        `${process.env.REACT_APP_API_URL}/rooms`,
+        room,
+        {withCredentials: true}
+    ).then(res=>{
+        if (res.status === 200)
+            return res
+        return null
+    });
+
+    return{
+        type: appConstants.UPDATE_FACILITY,
+        payload: updateRoomPromise
+    }
+}
